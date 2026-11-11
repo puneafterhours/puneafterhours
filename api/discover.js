@@ -6,7 +6,7 @@
 // Terms of Service (sec 13) prohibit scraping site content. Fetched server-side, no
 // login, no paid API. Cached 30 min.
 // Honest status per source is returned so the page can say what pulled and what didn't.
-const CACHE_KEY = 'discover:cache8';
+const CACHE_KEY = 'discover:cache9';
 const TTL_MS = 30 * 60 * 1000;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -48,11 +48,12 @@ async function fromMeetup(citySlug, cityLabel, cap) {
     const iso = isoFrom(v.dateTime);
     if (!iso) continue;
     // Local discovery only: skip online/virtual events - they are not Pune/Mumbai plans.
-    if (v.eventType === 'online') continue;
+    const vname = (v.venue && v.venue.name) || '';
+    if (String(v.eventType || '').toLowerCase() === 'online' || /^\s*(online|virtual)\b/i.test(vname)) continue;
     out.push({
       title: clip(v.title, 120), date: iso, dateText: fmtDate(iso),
       desc: clip(v.description, 200),
-      place: clip(v.venue && v.venue.name, 90) || (v.eventType === 'online' ? 'Online' : ''),
+      place: clip(vname, 90),
       price: v.feeSettings && v.feeSettings.amount != null ? `₹${v.feeSettings.amount}` : '',
       links: v.eventUrl ? [{ url: v.eventUrl, label: 'Meetup' }] : [],
       source: 'Meetup', city: cityLabel,
