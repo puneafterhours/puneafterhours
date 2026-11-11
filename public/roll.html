@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add your birthday - PuneAfterhours</title>
+<meta name="description" content="Drop your birthday so the group can actually plan the night. Day and month only.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
+  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll" class="on">🎂 Add birthday</a><a href="/wall">🌙 Wall</a><a href="/events">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
+  <h1>🎂 Birthday roll</h1>
+  <p class="sub">Drop your birthday so the AfterHours gang and r/PuneTonight can actually plan the night, not scramble on the day. Takes about a minute. Day and month is enough. Adding the year is optional - it shows on the wall only if you choose to show it.</p>
+  <form class="card" id="f">
+    <label for="name">What should the group call you?</label>
+    <input type="text" id="name" maxlength="40" required autocomplete="nickname">
+
+    <label>Your birthday</label>
+    <div class="row">
+      <select id="day" required><option value="">Day</option></select>
+      <select id="month" required><option value="">Month</option></select>
+    </div>
+    <div class="hint">Day and month show on the wall (if you opt in below).</div>
+    <label for="year">Birth year (optional)</label>
+    <input type="number" id="year" min="1920" max="2026" inputmode="numeric" placeholder="Optional">
+    <div id="ywrap" style="display:none">
+    <label>Show your birth year on the wall?</label>
+    <div class="choices" id="yshow">
+      <button type="button" data-v="hide">No, keep it private</button>
+      <button type="button" data-v="show">Yes, show the year</button>
+    </div>
+    <div class="hint">Default is private - only the PuneAfters Team sees the year. Showing it puts the year next to your name on the public wall.</div>
+    </div>
+
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+    <label for="insta">Instagram ID (optional)</label>
+    <input type="text" id="insta" maxlength="40" placeholder="@you" autocomplete="off">
+    <div class="hint">Only the PuneAfters Team sees this unless you say yes below.</div>
+
+    <label for="whatsapp">WhatsApp number (optional)</label>
+    <input type="text" id="whatsapp" maxlength="20" inputmode="tel" placeholder="+91 ..." autocomplete="off">
+    <div class="hint">Country code included, like +91. The team can reach you about your own entry.</div>
+    <div id="wawrap" style="display:none">
+    <label>Show your WhatsApp number on the wall?</label>
+    <div class="choices" id="washow">
+      <button type="button" data-v="hide">No, keep it private</button>
+      <button type="button" data-v="show">Yes, show it</button>
+    </div>
+    <div class="hint">Default is private. If you show it, anyone with the wall link can see and message this number - the link goes to the group and the subreddit.</div>
+    </div>
+
+    <div id="igwrap" style="display:none">
+    <label>Show your Instagram on the wall?</label>
+    <div class="choices" id="ig">
+      <button type="button" data-v="show">Yes, show it</button>
+      <button type="button" data-v="hide">No, keep it private</button>
+    </div>
+    </div>
+
+    <label>How should the group celebrate you?</label>
+    <div class="choices" id="celebrate">
+      <button type="button" data-v="Cake spam">🎂 Cake spam</button>
+      <button type="button" data-v="Plan a night out">🌃 Plan a night out</button>
+      <button type="button" data-v="Just a shoutout">📣 Just a shoutout</button>
+      <button type="button" data-v="Skip the fuss">🤫 Skip the fuss</button>
+    </div>
+
+    <label>Show you on the birthday wall? (default is yes - switch to off before submitting if you don't want it)</label>
+    <div class="choices" id="wall">
+      <button type="button" data-v="wall" class="on">Yes, put me on it</button>
+      <button type="button" data-v="private">Keep me off the wall</button>
+    </div>
+    <div class="hint">The wall shows your name, day and month, and your celebration pick. Your Instagram only appears if you said yes above. The wall link can be shared with the AfterHours group and on r/PuneTonight, so anyone with the link can see it. Ask the PuneAfters Team anytime to take your entry down.</div>
+
+    <button class="send" id="send" type="submit" disabled>Send it</button>
+    <div class="done" id="done">You're on the roll 🎂 The team has your entry privately. It only shows on the wall if you said yes.</div>
+  </form>
+  <p class="privacy">Only the team sees the full list, including entries that stay off the wall. Nobody is added to any group, tagged, or posted about automatically.</p>
+</div>
+<script>
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const day=document.getElementById('day'),month=document.getElementById('month');
+for(let i=1;i<=31;i++){const o=document.createElement('option');o.value=i;o.textContent=i;day.appendChild(o);}
+months.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;month.appendChild(o);});
+let celebrate='',wall='wall',ig='hide',igSet=false,yshow='hide',showwa='hide';
+document.getElementById('insta').addEventListener('input',e=>{document.getElementById('igwrap').style.display=e.target.value.trim()?'block':'none';check();});
+document.getElementById('year').addEventListener('input',e=>{document.getElementById('ywrap').style.display=e.target.value.trim()?'block':'none';check();});
+document.getElementById('whatsapp').addEventListener('input',e=>{document.getElementById('wawrap').style.display=e.target.value.trim()?'block':'none';check();});
+function pick(id,fn){document.getElementById(id).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.toggle('on',x===b));fn(b.dataset.v);check();});}
+pick('celebrate',v=>celebrate=v);pick('wall',v=>wall=v);pick('ig',v=>{ig=v;igSet=true;});pick('yshow',v=>yshow=v);pick('washow',v=>showwa=v);
+const send=document.getElementById('send'),name=document.getElementById('name');
+function check(){const needIg=!!document.getElementById('insta').value.trim();send.disabled=!(name.value.trim()&&day.value&&month.value&&celebrate&&wall&&(!needIg||(ig==='show'||ig==='hide')&&igSet));}
+[name,day,month].forEach(el=>el.addEventListener('input',check));
+document.getElementById('f').addEventListener('submit',async e=>{
+  e.preventDefault();send.disabled=true;
+  try{
+    const r=await fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({year:document.getElementById('year').value,name:name.value.trim(),day:day.value,month:month.value,insta:document.getElementById('insta').value.trim(),celebrate,wall,ig,showyear:yshow,showwa,whatsapp:document.getElementById('whatsapp').value.trim(),website:document.getElementById('website').value})});
+    if(!r.ok)throw 0;
+    document.getElementById('done').style.display='block';send.textContent='Sent';
+  }catch{send.disabled=false;alert('Something glitched. Try again?');}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin - PuneAfterhours</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
+  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll">🎂 Add birthday</a><a href="/wall">🌙 Wall</a><a href="/events">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
+  <h1>🛡 Host moderation</h1>
+  <p class="sub">Team only. Remove anything that shouldn't be up.</p>
+  <form class="card" id="f">
+    <label for="pass">Passphrase</label>
+    <input type="password" id="pass" autocomplete="current-password" required>
+    <button class="send" type="submit">Open admin</button>
+    <div class="hint" id="msg"></div>
+  </form>
+  <div id="box" style="display:none">
+    <h1 style="margin-top:24px">Meetup proposals</h1>
+    <div id="events"></div>
+    <h1 style="margin-top:24px">Birthday entries</h1>
+    <div id="entries"></div>
+  </div>
+</div>
+<script>
+let PASS='';
+function row(it,label,del){const d=document.createElement('div');d.className='entry';d.style.cssText='flex-direction:column;align-items:flex-start';
+ const n=document.createElement('span');n.className='n';n.textContent=label;d.appendChild(n);
+ const b=document.createElement('button');b.textContent='Remove';b.className='send';b.style.cssText='padding:6px 14px;margin-top:6px';
+ b.onclick=async()=>{if(!confirm('Remove '+label+'?'))return;const r=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pass:PASS,action:'delete',id:it.id})});if(r.ok){d.remove();}else alert('Failed ('+r.status+')');};
+ d.appendChild(b);return d;}
+async function load(){
+ const r=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pass:PASS,action:'list'})});
+ if(!r.ok){document.getElementById('msg').textContent=r.status===429?'Too many attempts. Wait an hour.':'Wrong passphrase.';return;}
+ const j=await r.json();
+ document.getElementById('f').style.display='none';document.getElementById('box').style.display='block';
+ const ev=document.getElementById('events'),en=document.getElementById('entries');
+ ev.innerHTML=j.events.length?'':'<div class="empty">No proposals.</div>';
+ en.innerHTML=j.entries.length?'':'<div class="empty">No birthdays.</div>';
+ j.events.forEach(e=>ev.appendChild(row(e,e.title+' - by '+e.name+', '+e.going+' going ('+(e.status||'proposed')+')')));
+ j.entries.forEach(e=>en.appendChild(row(e,e.name+' - '+e.day+' '+(e.month||'')+(e.insta?' · @'+e.insta:'')+(e.wall?'':' · hidden'))));
+}
+document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();PASS=document.getElementById('pass').value;load();});
+</script>
+</body>
+</html>

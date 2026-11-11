@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "headers": [{ "source": "/style.css", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }] }],
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/roll", "destination": "/roll.html" },
+    { "source": "/wall", "destination": "/wall.html" },
+    { "source": "/events", "destination": "/events.html" },
+    { "source": "/e", "destination": "/event.html" },
+    { "source": "/propose", "destination": "/propose.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}

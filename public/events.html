@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meetup plans - PuneAfterhours</title>
+<meta name="description" content="Meetup proposals from the PuneAfterhours gang and r/PuneTonight. Say you're in.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
+  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll">🎂 Add birthday</a><a href="/wall">🌙 Wall</a><a href="/events" class="on">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
+  <h1>🌃 Meetup plans</h1>
+  <p class="sub">Proposals from the crew. Open one and say you're in. A proposal isn't confirmed until its host locks it.</p>
+  <div id="list"><div class="empty loading">Loading…</div></div>
+  <a class="wall-link" href="/propose">Propose a plan →</a>
+
+  <h1 style="margin-top:40px">📡 What's on in Pune</h1>
+  <p class="sub">Pulled live from across the internet - Meetup, District and the r/punetonight guides. Every card links to its source. Pick a period.</p>
+  <div class="choices" id="hz" style="margin-bottom:14px"></div>
+  <div id="ideas"><div class="empty loading">Loading…</div></div>
+  <h1 style="margin-top:34px;font-size:22px">🚗 Worth the drive - Mumbai</h1>
+  <div id="mum"><div class="empty loading">Loading…</div></div>
+  <h1 style="margin-top:34px;font-size:22px">🇮🇳 Big nights across India</h1>
+  <p class="sub" style="margin-bottom:10px">Major tours and one-off biggies. "First" or "biggest" claims are the organisers' own - check the source before planning around them.</p>
+  <div id="ind"><div class="empty loading">Loading…</div></div>
+  <p class="privacy" id="ideas-note"></p>
+</div>
+<script>
+fetch('/api/events').then(r=>r.json()).then(({events})=>{
+  const list=document.getElementById('list');
+  if(!events||!events.length){list.innerHTML='<div class="empty">No plans yet. Someone has to go first 📣</div>';return;}
+  list.innerHTML='';
+  events.forEach(e=>{
+    const a=document.createElement('a');a.className='entry';a.href='/e?id='+encodeURIComponent(e.id);
+    const body=document.createElement('span');
+    const tag=document.createElement('span');tag.className='tag';tag.textContent='proposal';body.appendChild(tag);body.appendChild(document.createElement('br'));
+    const n=document.createElement('span');n.className='n';n.textContent=e.title;body.appendChild(n);body.appendChild(document.createElement('br'));
+    const v=document.createElement('span');v.className='v';v.textContent=[e.when,e.area,e.going+' going'].filter(Boolean).join(' · ');body.appendChild(v);
+    a.appendChild(body);list.appendChild(a);
+  });
+}).catch(()=>{document.getElementById('list').innerHTML='<div class="empty">Could not load plans. Try refreshing.</div>';});
+
+const todayIso=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10);
+const PERIODS=[
+  {k:'nov',l:'Nov 2026',a:'2026-11-01',b:'2026-11-30'},
+  {k:'dec',l:'Dec 2026',a:'2026-12-01',b:'2026-12-31'},
+  {k:'q1',l:'Next quarter (Jan-Mar 2027)',a:'2027-01-01',b:'2027-03-31'},
+  {k:'27',l:'Rest of 2027',a:'2027-04-01',b:'2027-12-31'},
+  {k:'all',l:'Everything upcoming',a:'2000-01-01',b:'2099-12-31'}];
+let PUNE=[],MUM=[],IND=[],cur='nov';
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+function card(e,srcTag){
+  const row=el('div','entry');row.style.cssText='flex-direction:column;align-items:flex-start';
+  const head=el('span');head.style.cssText='display:flex;gap:6px;flex-wrap:wrap';
+  head.appendChild(el('span','tag',e.dateText));
+  if(srcTag){const t=el('span','tag',e.source);t.style.cssText='background:#12203a;color:#7fb0ff';head.appendChild(t);}
+  row.appendChild(head);
+  row.appendChild(el('span','n',e.title));
+  const v=[e.place,e.price].filter(Boolean).join(' · ');
+  if(v)row.appendChild(el('span','v',v));
+  if(e.desc)row.appendChild(el('span','v',e.desc));
+  const acts=el('span');acts.style.cssText='display:flex;gap:14px;margin-top:8px;flex-wrap:wrap';
+  e.links.forEach(l=>{const a=el('a',null,(l.label||'Tickets')+' ↗');a.href=l.url;a.target='_blank';a.rel='noopener';a.style.color='var(--a)';acts.appendChild(a);});
+  const u=el('a',null,'Propose as meetup →');u.href='/propose?title='+encodeURIComponent(e.title)+'&when='+encodeURIComponent(e.dateText)+'&area='+encodeURIComponent((e.place||'').slice(0,80))+'&link='+encodeURIComponent((e.links[0]||{url:''}).url);u.style.color='var(--a)';acts.appendChild(u);
+  row.appendChild(acts);return row;
+}
+function render(){
+  const hz=document.getElementById('hz');hz.innerHTML='';
+  PERIODS.forEach(p=>{const b=el('button',p.k===cur?'on':'',p.l);b.type='button';b.onclick=()=>{cur=p.k;render();};hz.appendChild(b);});
+  const p=PERIODS.find(x=>x.k===cur);
+  const box=document.getElementById('ideas');box.innerHTML='';
+  const list=PUNE.filter(e=>e.date>=p.a&&e.date<=p.b&&e.date>=todayIso);
+  if(!list.length){box.innerHTML='<div class="empty">Nothing source-backed for this period yet. This updates automatically as sources announce more.</div>';return;}
+  list.forEach(e=>box.appendChild(card(e,true)));
+}
+fetch('/api/discover').then(r=>r.json()).then(d=>{
+  PUNE=d.pune||[];MUM=d.mumbai||[];IND=d.india||[];
+  render();
+  const mbox=document.getElementById('mum');mbox.innerHTML='';
+  const mlist=MUM.filter(e=>e.date>=todayIso).slice(0,6);
+  if(!mlist.length)mbox.innerHTML='<div class="empty">Nothing source-backed for Mumbai right now.</div>';
+  mlist.forEach(e=>mbox.appendChild(card(e,true)));
+  const ibox=document.getElementById('ind');ibox.innerHTML='';
+  const ilist=IND.filter(e=>e.date>=todayIso).slice(0,8);
+  if(!ilist.length)ibox.innerHTML='<div class="empty">No major India events listed by our sources right now.</div>';
+  ilist.forEach(e=>{const c=card(e,true);if(e.city&&e.city!=='India'){const t=el('span','tag',e.city);t.style.cssText='background:#123a28;color:#8fe0b0';c.firstChild.appendChild(t);}ibox.appendChild(c);});
+  const ago=Math.round((Date.now()-d.fetchedAt)/60000);
+  const st=Object.entries(d.status||{}).map(([k,v])=>k+': '+(typeof v==='number'?v+' events':v)).join(' · ');
+  document.getElementById('ideas-note').textContent='Pulled '+(ago<1?'just now':ago+' min ago')+' ('+(d.source==='cache'?'cached':'live')+'). Sources: '+st+'. Not complete coverage of everything in Pune - details can change, check the source before planning.';
+}).catch(()=>{document.getElementById('ideas').innerHTML='<div class="empty">Could not pull sources right now. Try refreshing.</div>';});
+</script>
+</body>
+</html>

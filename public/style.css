@@ -1,0 +1,53 @@
+:root { --ink:#f6efe8; --dim:#b8a89e; --saffron:#e8963e; --card:#211417; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; background:#160d10; color:var(--ink); min-height:100vh; }
+.wrap { max-width:520px; margin:0 auto; padding:32px 20px 64px; }
+h1 { font-size:30px; margin:8px 0 4px; letter-spacing:-0.02em; }
+h2 { font-size:18px; color:var(--saffron); }
+.sub { color:var(--dim); font-size:15px; line-height:1.5; margin:0 0 24px; }
+.card { background:var(--card); border:1px solid #3a2328; border-radius:20px; padding:22px; }
+label { display:block; font-size:13px; font-weight:600; color:var(--dim); margin:18px 0 8px; }
+input[type=text], input[type=number], textarea { width:100%; padding:13px 14px; border-radius:12px; border:1px solid #4a2c32; background:#160d10; color:var(--ink); font-size:16px; font-family:inherit; }
+textarea { min-height:80px; resize:vertical; }
+.row { display:flex; gap:10px; }
+.row select { flex:1; padding:13px 12px; border-radius:12px; border:1px solid #4a2c32; background:#160d10; color:var(--ink); font-size:16px; }
+.hint { font-size:12px; color:var(--dim); margin-top:6px; line-height:1.5; }
+.choices { display:flex; flex-wrap:wrap; gap:8px; }
+.choices button { padding:10px 14px; border-radius:999px; border:1px solid #4a2c32; background:#160d10; color:var(--ink); font-size:14px; cursor:pointer; }
+.choices button.on { background:var(--saffron); border-color:var(--saffron); color:#160d10; font-weight:700; }
+.send { margin-top:24px; width:100%; padding:15px; border:none; border-radius:14px; background:var(--saffron); color:#160d10; font-size:16px; font-weight:700; cursor:pointer; }
+.send:disabled { opacity:.45; cursor:default; }
+.done { margin-top:16px; padding:14px; border-radius:12px; background:#1d2b1a; border:1px solid #3c5a34; font-size:14px; display:none; }
+.link, .wall-link { display:block; text-align:center; margin-top:22px; color:var(--saffron); font-size:14px; }
+.privacy { font-size:12px; color:var(--dim); margin-top:18px; line-height:1.5; }
+display:flex; gap:18px; margin-bottom:26px; font-size:14px; flex-wrap:wrap; }
+.nav a { color:var(--dim); text-decoration:none; }
+.nav a.here { color:var(--ink); font-weight:700; }
+.tiles { display:grid; gap:12px; }
+.tile { background:var(--card); border:1px solid #3a2328; border-radius:16px; padding:18px; text-decoration:none; color:var(--ink); display:block; }
+.tile b { font-size:17px; }
+.tile p { color:var(--dim); font-size:13px; margin:6px 0 0; line-height:1.5; }
+.month { margin-top:26px; }
+.month h2 { font-size:18px; margin:0 0 10px; }
+.entry { background:var(--card); border:1px solid #3a2328; border-radius:14px; padding:12px 16px; margin-bottom:10px; display:flex; gap:14px; align-items:baseline; text-decoration:none; color:var(--ink); }
+.entry .d { font-weight:800; color:var(--saffron); min-width:26px; }
+.entry .n { font-weight:700; }
+.entry .v { color:var(--dim); font-size:13px; }
+.empty { color:var(--dim); font-size:14px; padding:18px 0; }
+.tag { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; background:#3a2a16; color:var(--saffron); margin-bottom:6px; }
+.count { color:var(--saffron); font-size:13px; font-weight:700; }
+.moon { font-size:40px; }
+
+.tabs { display:flex; gap:4px; margin:0 auto 28px; flex-wrap:nowrap; background:#241216; border:1px solid #3a2328; border-radius:999px; padding:5px; max-width:560px; }
+.tabs { overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.tabs::-webkit-scrollbar { display:none; }
+.tabs a { flex:1 0 auto; text-align:center; padding:9px 10px; white-space:nowrap; font-size:12.5px; border-radius:999px; border:1px solid #4a2c32; color:var(--dim); font-size:13px; font-weight:600; text-decoration:none; }
+.tabs a.on { background:var(--saffron); border-color:var(--saffron); color:#160d10; }
+@media (max-width:480px) {
+  .tabs { gap:3px; padding:4px; }
+  .tabs a { flex:1 1 auto; padding:8px 5px; font-size:12px; }
+}
+
+.brand { font-weight:800; font-size:15px; margin-bottom:14px; color:var(--ink); letter-spacing:0.2px; }
+.brand .moon-sm { color:var(--saffron); }
+.loading { min-height:96px; display:flex; align-items:center; }
