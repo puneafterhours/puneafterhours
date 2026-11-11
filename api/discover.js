@@ -6,7 +6,7 @@
 // Terms of Service (sec 13) prohibit scraping site content. Fetched server-side, no
 // login, no paid API. Cached 30 min.
 // Honest status per source is returned so the page can say what pulled and what didn't.
-const CACHE_KEY = 'discover:cache7';
+const CACHE_KEY = 'discover:cache8';
 const TTL_MS = 30 * 60 * 1000;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -47,6 +47,8 @@ async function fromMeetup(citySlug, cityLabel, cap) {
     if (!v || v.__typename !== 'Event' || !v.title || !v.dateTime) continue;
     const iso = isoFrom(v.dateTime);
     if (!iso) continue;
+    // Local discovery only: skip online/virtual events - they are not Pune/Mumbai plans.
+    if (v.eventType === 'online') continue;
     out.push({
       title: clip(v.title, 120), date: iso, dateText: fmtDate(iso),
       desc: clip(v.description, 200),
@@ -158,9 +160,11 @@ export default async function handler(req, res) {
   // Drop past-dated events: this is a what's-on feed, not an archive. Guides stay as-is.
   const todayIst = new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
   const upcoming = (arr) => arr.filter((e) => !e.date || e.date >= todayIst);
-  const pune = upcoming(dedupe([...meetupPune, ...reddit.events.filter((e) => e.city === 'Pune')])).sort((a, b) => a.date.localeCompare(b.date));
-  const mumbai = upcoming(dedupe([...meetupMumbai, ...reddit.events.filter((e) => e.city === 'Mumbai'), ...district.filter((e) => e.city === 'Mumbai')])).sort((a, b) => a.date.localeCompare(b.date));
-  const india = upcoming(dedupe(district.filter((e) => e.city !== 'Mumbai' && e.city !== 'Pune'))).sort((a, b) => a.date.localeCompare(b.date));
+  // Drop restricted events (students/members/invite-only): this is an open community board.
+  const openToAll = (arr) => arr.filter((e) => !/(students|members|alumni|employees)\s+only|invite[-\s]only|closed event|private event/i.test(`${e.title} ${e.desc || ''}`));
+  const pune = openToAll(upcoming(dedupe([...meetupPune, ...reddit.events.filter((e) => e.city === 'Pune')])).sort((a, b) => a.date.localeCompare(b.date)));
+  const mumbai = openToAll(upcoming(dedupe([...meetupMumbai, ...reddit.events.filter((e) => e.city === 'Mumbai'), ...district.filter((e) => e.city === 'Mumbai')])).sort((a, b) => a.date.localeCompare(b.date)));
+  const india = openToAll(upcoming(dedupe(district.filter((e) => e.city !== 'Mumbai' && e.city !== 'Pune'))).sort((a, b) => a.date.localeCompare(b.date)));
   const failed = Object.values(status).filter((v) => v === 'unavailable').length;
   if (failed > 2) {
     const c = await stale;
