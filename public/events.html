@@ -19,6 +19,10 @@
   <div id="list"><div class="empty loading">Loading…</div></div>
   <a class="wall-link" href="/propose">Propose a plan →</a>
 
+  <h1 style="margin-top:40px">🎉 This weekend</h1>
+  <p class="sub" id="wknd-sub">Source-backed things actually happening this Friday to Sunday in Pune.</p>
+  <div id="wknd"><div class="empty loading">Loading…</div></div>
+
   <h1 style="margin-top:40px">📡 What's on in Pune</h1>
   <p class="sub">Pulled live from across the internet - Meetup, District and the r/punetonight guides. Routine tech, networking and study sessions are filtered out; outings, gigs, comedy, festivals, parties and nights out stay. Every card links to its source. Pick a period.</p>
   <div class="choices" id="hz" style="margin-bottom:14px"></div>
@@ -81,6 +85,21 @@ function render(){
 fetch('/api/discover').then(r=>r.json()).then(d=>{
   PUNE=d.pune||[];MUM=d.mumbai||[];IND=d.india||[];
   render();
+  const istNow=new Date(Date.now()+5.5*3600e3);
+  const dow=istNow.getUTCDay();
+  const sinceFri=(dow-5+7)%7;
+  const fri=new Date(istNow);
+  if(sinceFri<=2)fri.setUTCDate(fri.getUTCDate()-sinceFri);else fri.setUTCDate(fri.getUTCDate()+(7-sinceFri));
+  const sun=new Date(fri);sun.setUTCDate(sun.getUTCDate()+2);
+  const friIso=fri.toISOString().slice(0,10),sunIso=sun.toISOString().slice(0,10);
+  const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const fd=parseInt(friIso.slice(8,10)),sd=parseInt(sunIso.slice(8,10));
+  const fm=MN[parseInt(friIso.slice(5,7))-1],sm=MN[parseInt(sunIso.slice(5,7))-1];
+  document.getElementById('wknd-sub').textContent='Source-backed things happening in Pune, Fri '+fd+' '+fm+' to Sun '+sd+' '+sm+'.';
+  const wbox=document.getElementById('wknd');wbox.innerHTML='';
+  const wlist=PUNE.filter(e=>e.date&&e.date>=friIso&&e.date<=sunIso&&e.date>=todayIso);
+  if(!wlist.length)wbox.innerHTML='<div class="empty">Nothing source-backed for this weekend yet. New plans appear as sources announce them - or propose your own above.</div>';
+  wlist.forEach(e=>wbox.appendChild(card(e,true)));
   const mbox=document.getElementById('mum');mbox.innerHTML='';
   const mlist=MUM.filter(e=>e.date>=todayIso).slice(0,6);
   if(!mlist.length)mbox.innerHTML='<div class="empty">Nothing source-backed for Mumbai right now.</div>';
