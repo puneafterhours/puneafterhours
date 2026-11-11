@@ -6,7 +6,7 @@
 // Terms of Service (sec 13) prohibit scraping site content. Fetched server-side, no
 // login, no paid API. Cached 30 min.
 // Honest status per source is returned so the page can say what pulled and what didn't.
-const CACHE_KEY = 'discover:cache10';
+const CACHE_KEY = 'discover:cache11';
 const TTL_MS = 30 * 60 * 1000;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -43,6 +43,8 @@ const isoFrom = (dt) => { const d = new Date(dt); return Number.isNaN(+d) ? null
 const ROUTINE_RE = /\b(tech|developers?|dev\s?ops|coding|programming|javascript|python|reactjs?|node\.?js|aws|kubernetes|docker|machine learning|data science|artificial intelligence|\bai\b|blockchain|web3|crypto|startup|founders?|saas|pitch(ing| deck)?|networking|business (meet|mixer)|\bbni\b|study (group|session)|book club|toastmasters?|language exchange|co-?working|weekly|every (week|monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b/i;
 const HYPE_RE = /\b(first[- ]ever|biggest|india'?s (largest|first)|world'?s (biggest|first))\b/i;
 const SPECIAL_RE = /\b(gig|live music|concert|comedy|stand[- ]?up|festival|\bfest\b|party|parties|\bdj\b|rave|club night|ladies night|bollywood night|techno|karaoke|trek(king)?|hike|hiking|stargazing|camp(ing|fire)?|sundowner|pub crawl|food (walk|tour|crawl)|night ?out|nightlife|boat(ing)?|kayak(ing)?)\b/i;
+const PARTY_RE = /\b(party|parties|\bdj\b|rave|club|nightlife|bollywood|techno|trance|psytrance|ladies night|sundowner|pub crawl|live music|gig|concert|band|orchestra|dance)\b/i;
+const partyScore = (e) => (PARTY_RE.test(`${e.title} ${e.desc || ''} ${e.place || ''}`) ? 1 : 0);
 const isRoutineSession = (text) => (ROUTINE_RE.test(text) || HYPE_RE.test(text)) && !SPECIAL_RE.test(text);
 const fmtDate = (iso) => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${d} ${['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][+m - 1]} ${y}`; };
 
@@ -97,6 +99,42 @@ async function fromDistrict(cap) {
       if (!/(stadium|arena|festival|\bfest\b|world tour|india tour|first time in india|india debut|\bdebut\b)/i.test(e.name) || /lineup|open mic|workshop/i.test(e.name)) continue;
       out.push({ title: clip(parts.filter((p) => !KNOWN.some((k) => p.toLowerCase() === k.toLowerCase())).join(' | '), 120), date: iso, dateText: fmtDate(iso), desc: '', place: clip(locName, 90), price: '', links: [{ url: e.url, label: 'District' }], source: 'District', city: clip(city, 40) || 'India' });
     }
+  }
+  return out.slice(0, cap);
+}
+
+// District genre-city pages: direct platform listings per city (nightlife, music,
+// fests, performances, food & drinks). District's llms.txt explicitly welcomes AI
+// agents reading/citing public pages. Party-first: the nightlife page is kept whole
+// (minus open mics/workshops); other genres pass the routine-session filter.
+async function fromDistrictCity(citySlug, cityLabel, cap) {
+  const GENRES = ['nightlife', 'music', 'fests-fairs', 'performances', 'food-drinks'];
+  const out = [];
+  for (const g of GENRES) {
+    try {
+      const html = await get(`https://www.district.in/events/${g}-in-${citySlug}-book-tickets`);
+      const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+      for (const b of blocks) {
+        let d; try { d = JSON.parse(b[1]); } catch { continue; }
+        if (d['@type'] !== 'ItemList') continue;
+        for (const it of d.itemListElement || []) {
+          const e = it.item || it;
+          const iso = isoFrom(e.startDate);
+          if (!e.name || !iso || !e.url) continue;
+          if (e.eventStatus && !/Scheduled/i.test(e.eventStatus)) continue;
+          if (e.eventAttendanceMode && /Online/i.test(e.eventAttendanceMode)) continue;
+          if (g !== 'nightlife' && isRoutineSession(e.name)) continue;
+          if (/open mic|workshop|audition|meetup|mixer/i.test(e.name)) continue;
+          const locName = typeof e.location === 'object' && e.location ? e.location.name : '';
+          const price = e.offers && e.offers.price ? `From \u20b9${e.offers.price}` : '';
+          out.push({
+            title: clip(e.name, 120), date: iso, dateText: fmtDate(iso), desc: '',
+            place: clip(locName, 90), price,
+            links: [{ url: e.url, label: 'District' }], source: 'District', city: cityLabel,
+          });
+        }
+      }
+    } catch { /* one genre page failing should not sink the rest */ }
   }
   return out.slice(0, cap);
 }
@@ -166,7 +204,9 @@ export default async function handler(req, res) {
   }
   const status = {};
   const stale = (async () => { if (!KV_URL || !KV_TOKEN) return null; try { const x = await kv(KV_URL, KV_TOKEN, `/get/${CACHE_KEY}`); const c = typeof x === 'string' ? JSON.parse(x) : x; return c && c.fetchedAt ? c : null; } catch { return null; } })();
-  const [meetupPune, meetupMumbai, district, reddit] = await Promise.all([
+  const [districtPune, districtMumbai, meetupPune, meetupMumbai, district, reddit] = await Promise.all([
+    fromDistrictCity('pune', 'Pune', 30).then((v) => (status['District (Pune)'] = v.length, v)).catch((e) => (status['District (Pune)'] = 'unavailable', [])),
+    fromDistrictCity('mumbai', 'Mumbai', 8).then((v) => (status['District (Mumbai)'] = v.length, v)).catch((e) => (status['District (Mumbai)'] = 'unavailable', [])),
     fromMeetup('pune', 'Pune', 25).then((v) => (status['Meetup (Pune)'] = v.length, v)).catch((e) => (status['Meetup (Pune)'] = 'unavailable', [])),
     fromMeetup('mumbai', 'Mumbai', 6).then((v) => (status['Meetup (Mumbai)'] = v.length, v)).catch((e) => (status['Meetup (Mumbai)'] = 'unavailable', [])),
     fromDistrict(12).then((v) => (status['District (India)'] = v.length, v)).catch((e) => (status['District (India)'] = 'unavailable', [])),
@@ -177,8 +217,11 @@ export default async function handler(req, res) {
   const upcoming = (arr) => arr.filter((e) => !e.date || e.date >= todayIst);
   // Drop restricted events (students/members/invite-only): this is an open community board.
   const openToAll = (arr) => arr.filter((e) => !/(students|members|alumni|employees)\s+only|invite[-\s]only|closed event|private event/i.test(`${e.title} ${e.desc || ''}`));
-  const pune = openToAll(upcoming(dedupe([...meetupPune, ...reddit.events.filter((e) => e.city === 'Pune')])).sort((a, b) => a.date.localeCompare(b.date)));
-  const mumbai = openToAll(upcoming(dedupe([...meetupMumbai, ...reddit.events.filter((e) => e.city === 'Mumbai'), ...district.filter((e) => e.city === 'Mumbai')])).sort((a, b) => a.date.localeCompare(b.date)));
+  // User taste: crazy party and vibe first. Direct-platform sources come before the
+  // Reddit roundup so overlapping cards carry the direct source, not the Reddit badge.
+  const vibe = (a, b) => (partyScore(b) - partyScore(a)) || a.date.localeCompare(b.date);
+  const pune = openToAll(upcoming(dedupe([...districtPune, ...meetupPune, ...reddit.events.filter((e) => e.city === 'Pune')])).sort(vibe));
+  const mumbai = openToAll(upcoming(dedupe([...districtMumbai, ...meetupMumbai, ...reddit.events.filter((e) => e.city === 'Mumbai'), ...district.filter((e) => e.city === 'Mumbai')])).sort(vibe));
   const india = openToAll(upcoming(dedupe(district.filter((e) => e.city !== 'Mumbai' && e.city !== 'Pune'))).sort((a, b) => a.date.localeCompare(b.date)));
   const failed = Object.values(status).filter((v) => v === 'unavailable').length;
   if (failed > 2) {
