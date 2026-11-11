@@ -6,7 +6,7 @@
 // Terms of Service (sec 13) prohibit scraping site content. Fetched server-side, no
 // login, no paid API. Cached 30 min.
 // Honest status per source is returned so the page can say what pulled and what didn't.
-const CACHE_KEY = 'discover:cache6';
+const CACHE_KEY = 'discover:cache7';
 const TTL_MS = 30 * 60 * 1000;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -79,7 +79,7 @@ async function fromDistrict(cap) {
       // billed India/world tours and debuts. Routine local shows (generic 'live'/'concert')
       // are excluded.
       if (!/(stadium|arena|festival|\bfest\b|world tour|india tour|first time in india|india debut|\bdebut\b)/i.test(e.name) || /lineup|open mic|workshop/i.test(e.name)) continue;
-      out.push({ title: clip(parts[0], 120), date: iso, dateText: fmtDate(iso), desc: '', place: clip(locName, 90), price: '', links: [{ url: e.url, label: 'District' }], source: 'District', city: clip(city, 40) || 'India' });
+      out.push({ title: clip(parts.filter((p) => !KNOWN.some((k) => p.toLowerCase() === k.toLowerCase())).join(' | '), 120), date: iso, dateText: fmtDate(iso), desc: '', place: clip(locName, 90), price: '', links: [{ url: e.url, label: 'District' }], source: 'District', city: clip(city, 40) || 'India' });
     }
   }
   return out.slice(0, cap);
@@ -155,9 +155,12 @@ export default async function handler(req, res) {
     fromDistrict(12).then((v) => (status['District (India)'] = v.length, v)).catch((e) => (status['District (India)'] = 'unavailable', [])),
     fromReddit().then((v) => (status['Reddit guides'] = v.events.length, v)).catch((e) => (status['Reddit guides'] = 'unavailable', { guides: [], events: [] })),
   ]);
-  const pune = dedupe([...meetupPune, ...reddit.events.filter((e) => e.city === 'Pune')]).sort((a, b) => a.date.localeCompare(b.date));
-  const mumbai = dedupe([...meetupMumbai, ...reddit.events.filter((e) => e.city === 'Mumbai'), ...district.filter((e) => e.city === 'Mumbai')]).sort((a, b) => a.date.localeCompare(b.date));
-  const india = dedupe(district.filter((e) => e.city !== 'Mumbai' && e.city !== 'Pune')).sort((a, b) => a.date.localeCompare(b.date));
+  // Drop past-dated events: this is a what's-on feed, not an archive. Guides stay as-is.
+  const todayIst = new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+  const upcoming = (arr) => arr.filter((e) => !e.date || e.date >= todayIst);
+  const pune = upcoming(dedupe([...meetupPune, ...reddit.events.filter((e) => e.city === 'Pune')])).sort((a, b) => a.date.localeCompare(b.date));
+  const mumbai = upcoming(dedupe([...meetupMumbai, ...reddit.events.filter((e) => e.city === 'Mumbai'), ...district.filter((e) => e.city === 'Mumbai')])).sort((a, b) => a.date.localeCompare(b.date));
+  const india = upcoming(dedupe(district.filter((e) => e.city !== 'Mumbai' && e.city !== 'Pune'))).sort((a, b) => a.date.localeCompare(b.date));
   const failed = Object.values(status).filter((v) => v === 'unavailable').length;
   if (failed > 2) {
     const c = await stale;
