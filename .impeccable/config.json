@@ -1,0 +1,18 @@
+{
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-lexicon.html"
+        ],
+        "createdAt": "2026-11-11T19:44:05.975Z",
+        "reason": "Dealt lexicon system: warm uncoated stock is that world's paper, not a reflex ground"
+      }
+    ]
+  }
+}

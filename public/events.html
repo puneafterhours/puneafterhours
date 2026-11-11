@@ -7,44 +7,58 @@
 <meta name="description" content="Meetup proposals from the PuneAfterhours gang and r/PuneTonight. Say you're in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=7">
 </head>
 <body>
-<div class="wrap">
-  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
-  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll">🎂 Birthday</a><a href="/wall">🌙 Wall</a><a href="/events" class="on">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
-  <h1>🌃 Meetup plans</h1>
+<header class="bar">
+  <a class="name" href="/">PuneAfterhours</a>
+  <nav class="tabs">
+    <a href="/">Home</a>
+    <a href="/roll">Birthday</a>
+    <a href="/wall">Wall</a>
+    <a href="/events" class="on">Plans</a>
+    <a href="/propose">Propose</a>
+  </nav>
+</header>
+<main class="wrap">
+  <h1>Plans</h1>
   <p class="sub">Proposals from the crew. Open one and say you're in. A proposal isn't confirmed until its host locks it.</p>
-  <div id="list"><div class="empty loading">Loading…</div></div>
-  <a class="wall-link" href="/propose">Propose a plan →</a>
+  <div id="list" class="rows"><div class="empty loading">Loading…</div></div>
+  <a class="wall-link" href="/propose">Propose a plan</a>
 
-  <h1 style="margin-top:40px">🎉 This weekend</h1>
+  <h2>This weekend</h2>
   <p class="sub" id="wknd-sub">Source-backed things actually happening this Friday to Sunday in Pune.</p>
-  <div id="wknd"><div class="empty loading">Loading…</div></div>
+  <div id="wknd" class="rows"><div class="empty loading">Loading…</div></div>
 
-  <h1 style="margin-top:40px">📡 What's on in Pune</h1>
-  <p class="sub">Pulled live from across the internet - Meetup, District and the r/punetonight guides. Routine tech, networking and study sessions are filtered out; outings, gigs, comedy, festivals, parties and nights out stay. Every card links to its source. Pick a period.</p>
-  <div class="choices" id="hz" style="margin-bottom:14px"></div>
-  <div id="ideas"><div class="empty loading">Loading…</div></div>
-  <h1 style="margin-top:34px;font-size:22px">🚗 Worth the drive - Mumbai</h1>
-  <div id="mum"><div class="empty loading">Loading…</div></div>
-  <h1 style="margin-top:34px;font-size:22px">🇮🇳 Big nights across India</h1>
-  <p class="sub" style="margin-bottom:10px">Major tours and one-off biggies. "First" or "biggest" claims are the organisers' own - check the source before planning around them.</p>
-  <div id="ind"><div class="empty loading">Loading…</div></div>
+  <h2>What's on</h2>
+  <p class="sub">Pulled live from across the internet. Meetup, District and the r/punetonight guides. Routine tech, networking and study sessions are filtered out; outings, gigs, comedy, festivals, parties and nights out stay. Every card links to its source. Pick a period.</p>
+  <div class="choices" id="hz"></div>
+  <div id="ideas" class="rows"><div class="empty loading">Loading…</div></div>
+  <h2>Mumbai</h2>
+  <p class="sub">Worth the drive.</p>
+  <div id="mum" class="rows"><div class="empty loading">Loading…</div></div>
+  <h2>Big nights</h2>
+  <p class="sub">Major tours and one-off biggies across India. "First" or "biggest" claims are the organisers' own. Check the source before planning around them.</p>
+  <div id="ind" class="rows"><div class="empty loading">Loading…</div></div>
   <p class="privacy" id="ideas-note"></p>
-</div>
+</main>
 <script>
 fetch('/api/events').then(r=>r.json()).then(({events})=>{
   const list=document.getElementById('list');
-  if(!events||!events.length){list.innerHTML='<div class="empty">No plans yet. Someone has to go first 📣</div>';return;}
+  if(!events||!events.length){list.innerHTML='<div class="empty">No plans yet. Someone has to go first.</div>';return;}
   list.innerHTML='';
   events.forEach(e=>{
     const a=document.createElement('a');a.className='entry';a.href='/e?id='+encodeURIComponent(e.id);
     const body=document.createElement('span');
-    const tag=document.createElement('span');tag.className='tag';tag.textContent='proposal';body.appendChild(tag);body.appendChild(document.createElement('br'));
     const n=document.createElement('span');n.className='n';n.textContent=e.title;body.appendChild(n);body.appendChild(document.createElement('br'));
     const v=document.createElement('span');v.className='v';v.textContent=[e.when,e.area,e.going+' going'].filter(Boolean).join(' · ');body.appendChild(v);
+    const st=document.createElement('span');
+    const locked=e.status==='locked';
+    st.className=locked?'state ok':'state';
+    st.textContent=locked?'Locked in':'Not locked';
+    body.appendChild(document.createElement('br'));
+    body.appendChild(st);
     a.appendChild(body);list.appendChild(a);
   });
 }).catch(()=>{document.getElementById('list').innerHTML='<div class="empty">Could not load plans. Try refreshing.</div>';});
@@ -59,18 +73,18 @@ const PERIODS=[
 let PUNE=[],MUM=[],IND=[],cur='nov';
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 function card(e,srcTag){
-  const row=el('div','entry');row.style.cssText='flex-direction:column;align-items:flex-start';
-  const head=el('span');head.style.cssText='display:flex;gap:6px;flex-wrap:wrap';
+  const row=el('div','entry col');
+  const head=el('span','tags');
   head.appendChild(el('span','tag',e.dateText));
-  if(srcTag){const t=el('span','tag',e.source);t.style.cssText='background:#12203a;color:#7fb0ff';head.appendChild(t);}
+  if(srcTag) head.appendChild(el('span','tag',e.source));
   row.appendChild(head);
   row.appendChild(el('span','n',e.title));
   const v=[e.place,e.price].filter(Boolean).join(' · ');
-  if(v)row.appendChild(el('span','v',v));
-  if(e.desc)row.appendChild(el('span','v',e.desc));
-  const acts=el('span');acts.style.cssText='display:flex;gap:14px;margin-top:8px;flex-wrap:wrap';
-  e.links.forEach(l=>{const a=el('a',null,(l.label||'Tickets')+' ↗');a.href=l.url;a.target='_blank';a.rel='noopener';a.style.color='var(--a)';acts.appendChild(a);});
-  const u=el('a',null,'Propose as meetup →');u.href='/propose?title='+encodeURIComponent(e.title)+'&when='+encodeURIComponent(e.dateText)+'&area='+encodeURIComponent((e.place||'').slice(0,80))+'&link='+encodeURIComponent((e.links[0]||{url:''}).url);u.style.color='var(--a)';acts.appendChild(u);
+  if(v) row.appendChild(el('span','v',v));
+  if(e.desc) row.appendChild(el('span','v',e.desc));
+  const acts=el('span','acts');
+  e.links.forEach(l=>{const a=el('a',null,l.label||'Tickets');a.href=l.url;a.target='_blank';a.rel='noopener';acts.appendChild(a);});
+  const u=el('a',null,'Propose as meetup');u.href='/propose?title='+encodeURIComponent(e.title)+'&when='+encodeURIComponent(e.dateText)+'&area='+encodeURIComponent((e.place||'').slice(0,80))+'&link='+encodeURIComponent((e.links[0]||{url:''}).url);acts.appendChild(u);
   row.appendChild(acts);return row;
 }
 function render(){
@@ -112,7 +126,7 @@ fetch('/api/discover').then(r=>r.json()).then(d=>{
     const end=endIso(e);
     return end&&end>=friIso&&end>=todayIso;
   });
-  if(!wlist.length)wbox.innerHTML='<div class="empty">Nothing source-backed for this weekend yet. New plans appear as sources announce them - or propose your own above.</div>';
+  if(!wlist.length)wbox.innerHTML='<div class="empty">Nothing source-backed for this weekend yet. New plans appear as sources announce them, or propose your own above.</div>';
   wlist.forEach(e=>wbox.appendChild(card(e,true)));
   const mbox=document.getElementById('mum');mbox.innerHTML='';
   const mlist=MUM.filter(e=>e.date>=todayIso).slice(0,6);
@@ -121,10 +135,13 @@ fetch('/api/discover').then(r=>r.json()).then(d=>{
   const ibox=document.getElementById('ind');ibox.innerHTML='';
   const ilist=IND.filter(e=>e.date>=todayIso).slice(0,8);
   if(!ilist.length)ibox.innerHTML='<div class="empty">No major India events listed by our sources right now.</div>';
-  ilist.forEach(e=>{const c=card(e,true);if(e.city&&e.city!=='India'){const t=el('span','tag',e.city);t.style.cssText='background:#123a28;color:#8fe0b0';c.firstChild.appendChild(t);}ibox.appendChild(c);});
+  ilist.forEach(e=>{const c=card(e,true);if(e.city&&e.city!=='India'){c.querySelector('.tags').appendChild(el('span','tag',e.city));}ibox.appendChild(c);});
   const ago=Math.round((Date.now()-d.fetchedAt)/60000);
   const st=Object.entries(d.status||{}).map(([k,v])=>k+': '+(typeof v==='number'?v+' events':v)).join(' · ');
-  document.getElementById('ideas-note').textContent='Pulled '+(ago<1?'just now':ago+' min ago')+' ('+(d.source==='cache'?'cached':'live')+'). Sources: '+st+'. Not complete coverage of everything in Pune - details can change, check the source before planning.';
+  const note=document.getElementById('ideas-note');
+  note.textContent='Pulled '+(ago<1?'just now':ago+' min ago')+' ('+(d.source==='cache'?'cached':d.source==='stale-cache'?'stale cache':'live')+'). Sources: '+st+'. Not complete coverage of everything in Pune. Details can change, check the source before planning.';
+  const down=Object.entries(d.status||{}).filter(([,v])=>v==='unavailable').map(([k])=>k);
+  if(down.length){const s=document.createElement('span');s.className='state';s.textContent=down.join(', ')+' unavailable';note.appendChild(document.createElement('br'));note.appendChild(s);}
 }).catch(()=>{document.getElementById('ideas').innerHTML='<div class="empty">Could not pull sources right now. Try refreshing.</div>';});
 </script>
 </body>

@@ -7,14 +7,22 @@
 <meta name="description" content="Pitch a meetup idea to the AfterHours gang and r/PuneTonight.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=7">
 </head>
 <body>
-<div class="wrap">
-  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
-  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll">🎂 Birthday</a><a href="/wall">🌙 Wall</a><a href="/events">📅 Plans</a><a href="/propose" class="on">📣 Propose</a></nav>
-  <h1>📣 Propose a plan</h1>
+<header class="bar">
+  <a class="name" href="/">PuneAfterhours</a>
+  <nav class="tabs">
+    <a href="/">Home</a>
+    <a href="/roll">Birthday</a>
+    <a href="/wall">Wall</a>
+    <a href="/events">Plans</a>
+    <a href="/propose" class="on">Propose</a>
+  </nav>
+</header>
+<main class="wrap">
+  <h1>Propose</h1>
   <p class="sub">Club night, food crawl, gig, house party. Pitch it and see who's interested. It shows up as a proposal, not a confirmed plan.</p>
   <form class="card" id="f">
     <label for="title">What's the plan?</label>
@@ -35,13 +43,12 @@
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
 
     <button class="send" id="send" type="submit" disabled>Post the proposal</button>
-    <div class="done" id="done">It's up 📣 People can RSVP now. It stays a proposal until you lock it from your private manage link below.</div>
+    <div class="done" id="done">It's up. People can RSVP now. It stays a proposal until you lock it from your private manage link below.</div>
   </form>
   <p class="privacy">Proposals are visible to anyone with this link. Keep phone numbers and addresses out; share those in the group.</p>
-</div>
+</main>
 <script>
 const send=document.getElementById('send'),title=document.getElementById('title'),name=document.getElementById('name');
-// Prefill when arriving from a plan-idea card (/events)
 const q=new URLSearchParams(location.search);
 if(q.get('title'))title.value=q.get('title').slice(0,80);
 if(q.get('when'))document.getElementById('when').value=q.get('when').slice(0,60);
@@ -59,7 +66,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
     const d=document.getElementById('done');
     if(j.id&&j.manageKey){try{localStorage.setItem('mk:'+j.id,j.manageKey);}catch{}
       const u='/e?id='+encodeURIComponent(j.id)+'&k='+encodeURIComponent(j.manageKey);
-      d.innerHTML='It\'s up 📣 People can RSVP now. It stays a <b>proposal</b> until you lock it. <a href="'+u+'" style="color:var(--a)">Open your plan + manage link</a>. Bookmark that link: it is the only way to lock, cancel or delete this plan.';}
+      d.innerHTML='It\'s up. People can RSVP now. It stays a <b>proposal</b> until you lock it. <a href="'+u+'">Open your plan and manage link</a>. Bookmark that link: it is the only way to lock, cancel or delete this plan.';}
     d.style.display='block';send.textContent='Posted';
   }catch{send.disabled=false;alert('Something glitched. Try again?');}
 });

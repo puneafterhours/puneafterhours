@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-12T01:27:00+05:30",
+  "title": "Design System: PuneAfterhours",
+  "extensions": {
+    "colorMeta": {
+      "newsprint": {
+        "role": "neutral",
+        "displayName": "Newsprint",
+        "canonical": "#c5c8c4",
+        "tonalRamp": ["oklch(15.0% 0.004 138.6)", "oklch(26.4% 0.005 138.6)", "oklch(37.9% 0.006 138.6)", "oklch(49.3% 0.006 138.6)", "oklch(60.7% 0.006 138.6)", "oklch(72.1% 0.006 138.6)", "oklch(83.6% 0.006 138.6)", "oklch(95.0% 0.003 138.6)"]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Sheet",
+        "canonical": "#e7e8e4",
+        "tonalRamp": ["oklch(15.0% 0.003 118.7)", "oklch(26.4% 0.004 118.7)", "oklch(37.9% 0.005 118.7)", "oklch(49.3% 0.005 118.7)", "oklch(60.7% 0.005 118.7)", "oklch(72.1% 0.005 118.7)", "oklch(83.6% 0.005 118.7)", "oklch(95.0% 0.002 118.7)"]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Field",
+        "canonical": "#f7f7f5",
+        "tonalRamp": ["oklch(15.0% 0.001 107.7)", "oklch(26.4% 0.002 107.7)", "oklch(37.9% 0.003 107.7)", "oklch(49.3% 0.003 107.7)", "oklch(60.7% 0.003 107.7)", "oklch(72.1% 0.003 107.7)", "oklch(83.6% 0.002 107.7)", "oklch(95.0% 0.001 107.7)"]
+      },
+      "on-red": {
+        "role": "neutral",
+        "displayName": "On-red Cream",
+        "canonical": "#fff7f2",
+        "tonalRamp": ["oklch(15.0% 0.006 54.2)", "oklch(26.4% 0.009 54.2)", "oklch(37.9% 0.011 54.2)", "oklch(49.3% 0.011 54.2)", "oklch(60.7% 0.011 54.2)", "oklch(72.1% 0.011 54.2)", "oklch(83.6% 0.010 54.2)", "oklch(95.0% 0.005 54.2)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1c1916",
+        "tonalRamp": ["oklch(15.0% 0.004 67.4)", "oklch(26.4% 0.006 67.4)", "oklch(37.9% 0.007 67.4)", "oklch(49.3% 0.007 67.4)", "oklch(60.7% 0.007 67.4)", "oklch(72.1% 0.007 67.4)", "oklch(83.6% 0.007 67.4)", "oklch(95.0% 0.003 67.4)"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#2c3833",
+        "tonalRamp": ["oklch(15.0% 0.010 168.1)", "oklch(26.4% 0.015 168.1)", "oklch(37.9% 0.018 168.1)", "oklch(49.3% 0.018 168.1)", "oklch(60.7% 0.018 168.1)", "oklch(72.1% 0.018 168.1)", "oklch(83.6% 0.017 168.1)", "oklch(95.0% 0.008 168.1)"]
+      },
+      "neighbor": {
+        "role": "neutral",
+        "displayName": "Neighbor",
+        "canonical": "#394640",
+        "tonalRamp": ["oklch(15.0% 0.011 165.8)", "oklch(26.4% 0.016 165.8)", "oklch(37.9% 0.020 165.8)", "oklch(49.3% 0.020 165.8)", "oklch(60.7% 0.020 165.8)", "oklch(72.1% 0.020 165.8)", "oklch(83.6% 0.018 165.8)", "oklch(95.0% 0.009 165.8)"]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(28, 25, 22, .22)",
+        "tonalRamp": ["oklch(15.0% 0.004 67.4)", "oklch(26.4% 0.006 67.4)", "oklch(37.9% 0.007 67.4)", "oklch(49.3% 0.007 67.4)", "oklch(60.7% 0.007 67.4)", "oklch(72.1% 0.007 67.4)", "oklch(83.6% 0.007 67.4)", "oklch(95.0% 0.003 67.4)"]
+      },
+      "red": {
+        "role": "primary",
+        "displayName": "Shell Red",
+        "canonical": "#9c1c16",
+        "tonalRamp": ["oklch(15.0% 0.094 28.6)", "oklch(26.4% 0.134 28.6)", "oklch(37.9% 0.164 28.6)", "oklch(49.3% 0.164 28.6)", "oklch(60.7% 0.164 28.6)", "oklch(72.1% 0.164 28.6)", "oklch(83.6% 0.153 28.6)", "oklch(95.0% 0.075 28.6)"]
+      },
+      "ok": {
+        "role": "state",
+        "displayName": "Locked Green",
+        "canonical": "#2f5d50",
+        "tonalRamp": ["oklch(15.0% 0.032 173.2)", "oklch(26.4% 0.045 173.2)", "oklch(37.9% 0.056 173.2)", "oklch(49.3% 0.056 173.2)", "oklch(60.7% 0.056 173.2)", "oklch(72.1% 0.056 173.2)", "oklch(83.6% 0.052 173.2)", "oklch(95.0% 0.025 173.2)"]
+      },
+      "confirm": {
+        "role": "state",
+        "displayName": "Confirm Wash",
+        "canonical": "#e5f2eb",
+        "tonalRamp": ["oklch(15.0% 0.009 163.1)", "oklch(26.4% 0.014 163.1)", "oklch(37.9% 0.017 163.1)", "oklch(49.3% 0.017 163.1)", "oklch(60.7% 0.017 163.1)", "oklch(72.1% 0.017 163.1)", "oklch(83.6% 0.015 163.1)", "oklch(95.0% 0.008 163.1)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page title, in Shell Red."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section and job headings, in Shell Red. The shell wordmark uses the same face at 32px."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The one fact in a job sheet, in Ink, set in Source Sans 3."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Sentences. Opening and section lines are 18px, capped at 68 characters."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels. The same size at regular weight, in Muted, is hint and detail text."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "cut",
+        "value": "0s",
+        "purpose": "Hover, the selected choice, and the row that holds focus change color immediately. No transition duration is set."
+      },
+      {
+        "name": "scroll",
+        "value": "smooth",
+        "purpose": "The document scrolls smoothly. Reduced motion forces scroll-behavior to auto and transitions to none."
+      }
+    ],
+    "breakpoints": [
+      { "name": "jobs-two", "value": "980px" },
+      { "name": "phone", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The action stamp. Ink at rest, Shell Red on hover, used at the end of a job sheet and as the form submit.",
+      "html": "<button class=\"ds-btn\" type=\"button\">Add your birthday</button>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap\"); .ds-btn { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; background: var(--ink, #1c1916); color: var(--field, #f7f7f5); border: 0; border-radius: 6px; padding: 11px 14px; text-decoration: none; cursor: pointer; } .ds-btn:hover { background: var(--red, #9c1c16); color: var(--field, #f7f7f5); } .ds-btn:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; } .ds-btn:disabled { opacity: .45; cursor: default; } .ds-btn:disabled:hover { background: var(--ink, #1c1916); }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "The undo. Transparent with an ink stroke; hover fills ink and flips the type to field.",
+      "html": "<button class=\"ds-btn-quiet\" type=\"button\">Remove my RSVP</button>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap\"); .ds-btn-quiet { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; background: transparent; color: var(--ink, #1c1916); border: 1.5px solid var(--ink, #1c1916); border-radius: 6px; padding: 11px 14px; cursor: pointer; } .ds-btn-quiet:hover { background: var(--ink, #1c1916); color: var(--field, #f7f7f5); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+    },
+    {
+      "name": "Choice Pill",
+      "kind": "chip",
+      "refersTo": "button-choice",
+      "description": "A single-select choice. The selected pill is ink; the others stay field. Hover does not fill them.",
+      "html": "<div class=\"ds-choices\"><button class=\"ds-choice\" type=\"button\">Just a shoutout</button><button class=\"ds-choice on\" type=\"button\">Plan a night out</button></div>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap\"); .ds-choices { display: flex; flex-wrap: wrap; gap: 8px; } .ds-choice { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--ink, #1c1916); background: var(--field, #f7f7f5); color: var(--ink, #1c1916); cursor: pointer; } .ds-choice.on { background: var(--ink, #1c1916); color: var(--field, #f7f7f5); border-color: var(--ink, #1c1916); } .ds-choice:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A full-width field on the near-white fill, with a 1.5px ink stroke and a red caret.",
+      "html": "<label class=\"ds-label\">First name<input class=\"ds-field\" type=\"text\" value=\"\"></label>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&display=swap\"); .ds-label { display: block; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 15px; color: var(--ink, #1c1916); margin: 0 0 6px; } .ds-field { display: block; width: 100%; margin-top: 6px; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 16px; font-weight: 400; padding: 12px; border-radius: 6px; border: 1.5px solid var(--ink, #1c1916); background: var(--field, #f7f7f5); color: var(--ink, #1c1916); caret-color: var(--red, #9c1c16); } .ds-field:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+    },
+    {
+      "name": "Shell",
+      "kind": "nav",
+      "refersTo": "shell",
+      "description": "The full-bleed red bar. The wordmark is condensed cream; the current page is a cream chip with red type.",
+      "html": "<header class=\"ds-bar\"><a class=\"ds-name\" href=\"#\">PuneAfterhours</a><nav class=\"ds-tabs\"><a class=\"ds-tab on\" href=\"#\">Home</a><a class=\"ds-tab\" href=\"#\">Birthday</a><a class=\"ds-tab\" href=\"#\">Wall</a><a class=\"ds-tab\" href=\"#\">Plans</a><a class=\"ds-tab\" href=\"#\">Propose</a></nav></header>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@700&display=swap\"); .ds-bar { background: var(--red, #9c1c16); color: var(--on-red, #fff7f2); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding: 14px 22px; } .ds-name { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-weight: 700; font-size: 32px; line-height: 1; letter-spacing: .01em; color: var(--on-red, #fff7f2); text-decoration: none; } .ds-tabs { display: flex; flex-wrap: wrap; gap: 4px; } .ds-tab { color: var(--on-red, #fff7f2); text-decoration: none; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 16px; padding: 8px 12px; border-radius: 6px; } .ds-tab:hover { background: rgba(255, 247, 242, .16); } .ds-tab.on { background: var(--on-red, #fff7f2); color: var(--red, #9c1c16); } .ds-tab:focus-visible, .ds-name:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+    },
+    {
+      "name": "Job Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "A flat working group: red heading, one ink fact, a muted line, an unsettled state, and an ink action.",
+      "html": "<section class=\"ds-sheet\"><h2 class=\"ds-h\">Proposal</h2><p class=\"ds-fact\">Club night in Kothrud</p><p class=\"ds-meta\">Friday · Kothrud · 4 going</p><p class=\"ds-state\">Not locked</p><a class=\"ds-go\" href=\"#\">See plans</a></section>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;700&display=swap\"); .ds-sheet { background: var(--sheet, #e7e8e4); color: var(--ink, #1c1916); border-radius: 8px; padding: 20px 18px 16px; display: flex; flex-direction: column; gap: 8px; max-width: 280px; } .ds-h { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-weight: 700; font-size: 34px; letter-spacing: .02em; color: var(--red, #9c1c16); line-height: 1; margin: 0; } .ds-fact { margin: 0; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--ink, #1c1916); } .ds-meta { margin: 0; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; color: var(--muted, #2c3833); font-size: 15px; line-height: 1.45; } .ds-state { margin: 0; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; color: var(--red, #9c1c16); } .ds-state.ok { color: var(--ok, #2f5d50); } .ds-go { margin-top: auto; align-self: flex-start; background: var(--ink, #1c1916); color: var(--field, #f7f7f5); border: 0; border-radius: 6px; padding: 11px 14px; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 15px; text-decoration: none; } .ds-go:hover { background: var(--red, #9c1c16); } .ds-go:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+    },
+    {
+      "name": "List Row",
+      "kind": "custom",
+      "description": "A birthday line on the ground. The day is condensed red, the name is ink, and pointing at the list drops every other name one step.",
+      "html": "<div class=\"ds-rows\"><a class=\"ds-row\" href=\"#\"><span class=\"ds-day\">12</span><span><span class=\"ds-name\">A name</span><br><span class=\"ds-detail\">Cake spam</span></span></a><a class=\"ds-row\" href=\"#\"><span class=\"ds-day\">18</span><span><span class=\"ds-name\">Another name</span><br><span class=\"ds-detail\">Plan a night out</span></span></a><a class=\"ds-row\" href=\"#\"><span class=\"ds-day\">27</span><span><span class=\"ds-name\">A third name</span><br><span class=\"ds-detail\">Just a shoutout</span></span></a></div>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;700&display=swap\"); .ds-rows { background: var(--bg, #c5c8c4); color: var(--ink, #1c1916); max-width: 420px; } .ds-row { display: flex; gap: 14px; align-items: baseline; padding: 12px 2px; border-bottom: 1px solid var(--line, rgba(28, 25, 22, .22)); text-decoration: none; color: inherit; } .ds-day { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-weight: 700; font-size: 28px; color: var(--red, #9c1c16); min-width: 36px; } .ds-name { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 17px; color: var(--ink, #1c1916); } .ds-detail { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; color: var(--muted, #2c3833); font-size: 15px; } .ds-rows:hover .ds-name, .ds-rows:focus-within .ds-name { color: #394640; } .ds-rows:hover .ds-row:hover .ds-name, .ds-rows:focus-within .ds-row:focus-within .ds-name { color: var(--ink, #1c1916); } .ds-row:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+    },
+    {
+      "name": "Confirmation",
+      "kind": "custom",
+      "refersTo": "confirm",
+      "description": "The banner after a form is accepted. Confirm Wash with Locked Green type. Hidden until the submit succeeds.",
+      "html": "<div class=\"ds-done\">You're on the roll. The team has your entry privately.</div>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@600&display=swap\"); .ds-done { margin-top: 14px; padding: 12px 14px; border-radius: 6px; background: #e5f2eb; color: var(--ok, #2f5d50); font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 600; font-size: 17px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Classified Sheet",
+    "overview": "PuneAfterhours is a working sheet. The ground is newsprint gray, the type is ink, and one red runs the full-bleed shell and every heading. Groups of work sit on a lighter flat sheet. Panels stay flat.\n\nA screen is a column of facts. Home puts four jobs in one row of sheets. Every other collection is a list: a hairline under each row, a condensed red day when the row is a birthday, the name in ink, the detail a step quieter. Hover or focus a list and the row you are on keeps its name at full ink while the other names drop one step. Green marks a plan the host has locked, and the banner after a form is accepted. A plan that is still a proposal, and a source that is down, stay red. A healthy source list is unmarked.\n\nBarlow Condensed carries the wordmark, the headings, and the day numeral. Source Sans 3 carries the sentences, the facts, the labels, and the buttons. Corners stay small. The only full pills are single-select choices. State changes cut from one color to the next.",
+    "keyCharacteristics": [
+      "Newsprint ground, a lighter sheet, a near-white field",
+      "One red for the shell, the headings, the links, and unsettled states",
+      "Green only for a locked plan or an accepted form",
+      "Barlow Condensed for headings and the day, Source Sans 3 for text",
+      "Flat sheets and hairline rows",
+      "The active list name stays ink; the others step down"
+    ],
+    "rules": [
+      {
+        "name": "The One Red Rule",
+        "body": "The shell, the headings, text links, text selection, and every unsettled state share Shell Red. An action wears that red only on hover.",
+        "section": "colors"
+      },
+      {
+        "name": "The Locked Green Rule",
+        "body": "Locked Green is the locked label. Confirm Wash is the banner after a form is accepted. A source that is up leaves the state line empty. A source that is down, and a plan that is not locked, stay Shell Red.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Faces Rule",
+        "body": "Barlow Condensed is the wordmark, the headings, and the day numeral. Source Sans 3 is every sentence, fact, label, button, and tab.",
+        "section": "typography"
+      },
+      {
+        "name": "The Working Column Rule",
+        "body": "Content sits in one column, 1120px wide, under a full-bleed bar. The bar wraps so every link stays on screen. Home jobs are four columns, two columns at 980px, and one column at 640px.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "Panels are flat. Depth is the step from newsprint to sheet to field. Focus is a 3px ink outline, offset 2px.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Small Corner Rule",
+        "body": "A sheet is 8px. A button, tab, field, and the confirmation banner are 6px.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Pill Is a Choice Rule",
+        "body": "A fully round pill is a single-select choice. Navigation and actions stay at 6px.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Rule List Rule",
+        "body": "A list is rows separated by a 1px ink rule at 22% opacity.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Focus Holds the Row Rule",
+        "body": "When a list is hovered or contains focus, every row name drops to Neighbor, and the name under the pointer or inside the focused row returns to Ink. The day numeral and the detail stay as they are.",
+        "section": "components"
+      },
+      {
+        "name": "The Ink Button Rule",
+        "body": "An action is ink with field-colored text. Hover cuts the fill to Shell Red. A disabled action stays ink at 45% opacity.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do set the ground to newsprint and a working group to the sheet color, with fields a step lighter.",
+      "Do use Shell Red for the bar, headings, links, selection, and any unsettled state.",
+      "Do keep an action ink at rest, with field-colored type and 6px corners, and turn the fill red only on hover.",
+      "Do separate list rows with the hairline rule, and drop the other names to Neighbor while the active name stays ink.",
+      "Do use Locked Green and Confirm Wash only for a locked label or the accepted-form banner.",
+      "Do set the wordmark, headings, and day numeral in Barlow Condensed, and sentences, facts, labels, and buttons in Source Sans 3.",
+      "Do mark focus with a 3px ink outline, offset 2px."
+    ],
+    "donts": [
+      "Don't add a shadow, a blur, a lift, or a second red.",
+      "Don't turn a list into sheets or cards.",
+      "Don't use green for a link, a heading, a button, a not-locked plan, or a source that is down.",
+      "Don't paint a resting button red, or round an action into a pill.",
+      "Don't set a sentence in Barlow Condensed, or a heading in Source Sans 3.",
+      "Don't collapse the shell into a menu. The bar wraps."
+    ]
+  }
+}
