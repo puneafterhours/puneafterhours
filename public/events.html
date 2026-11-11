@@ -97,7 +97,7 @@ fetch('/api/discover').then(r=>r.json()).then(d=>{
   const fm=MN[parseInt(friIso.slice(5,7))-1],sm=MN[parseInt(sunIso.slice(5,7))-1];
   document.getElementById('wknd-sub').textContent='Source-backed things happening in Pune, Fri '+fd+' '+fm+' to Sun '+sd+' '+sm+'.';
   const wbox=document.getElementById('wknd');wbox.innerHTML='';
-  const RANGE=/[A-Z]{3}\s+\d{1,2}\s*-\s*[A-Z]{3}\s+(\d{1,2})\s+([A-Z]{3})/;
+  const RANGE=/[A-Z]{3}\s+\d{1,2}\s*[-–—]\s*[A-Z]{3}\s+(\d{1,2})\s+([A-Z]{3})/;
   function endIso(e){
     const m=(e.dateText||'').match(RANGE);if(!m)return '';
     const em=MN.findIndex(x=>x.toUpperCase()===m[2]);
