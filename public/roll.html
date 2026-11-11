@@ -17,8 +17,9 @@
   <h1>🎂 Birthday roll</h1>
   <p class="sub">Drop your birthday so the AfterHours gang and r/PuneTonight can actually plan the night, not scramble on the day. Takes about a minute. Day and month is enough. Adding the year is optional - it shows on the wall only if you choose to show it.</p>
   <form class="card" id="f">
-    <label for="name">What should the group call you?</label>
-    <input type="text" id="name" maxlength="40" required autocomplete="nickname">
+    <label for="name">Your proper name (first and last)</label>
+    <input type="text" id="name" maxlength="60" required autocomplete="name" placeholder="First Last">
+    <div class="hint">First and last name, so the team knows who's who. This is the name that shows on the wall.</div>
 
     <label>Your birthday</label>
     <div class="row">
@@ -38,11 +39,11 @@
     </div>
 
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-    <label for="insta">Instagram ID (optional)</label>
+    <label for="insta">Instagram ID</label>
     <input type="text" id="insta" maxlength="40" placeholder="@you" autocomplete="off">
-    <div class="hint">Only the PuneAfters Team sees this unless you say yes below.</div>
+    <div class="hint">Instagram or WhatsApp - one of the two is needed so the team can reach you about your own entry. Only the PuneAfters Team sees it unless you say yes below.</div>
 
-    <label for="whatsapp">WhatsApp number (optional)</label>
+    <label for="whatsapp">WhatsApp number (needed if no Instagram above)</label>
     <input type="text" id="whatsapp" maxlength="20" inputmode="tel" placeholder="+91 ..." autocomplete="off">
     <div class="hint">Country code included, like +91. The team can reach you about your own entry.</div>
     <div id="wawrap" style="display:none">
@@ -94,7 +95,7 @@ document.getElementById('whatsapp').addEventListener('input',e=>{document.getEle
 function pick(id,fn){document.getElementById(id).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.toggle('on',x===b));fn(b.dataset.v);check();});}
 pick('celebrate',v=>celebrate=v);pick('wall',v=>wall=v);pick('ig',v=>{ig=v;igSet=true;});pick('yshow',v=>yshow=v);pick('washow',v=>showwa=v);
 const send=document.getElementById('send'),name=document.getElementById('name');
-function check(){const needIg=!!document.getElementById('insta').value.trim();send.disabled=!(name.value.trim()&&day.value&&month.value&&celebrate&&wall&&(!needIg||(ig==='show'||ig==='hide')&&igSet));}
+function check(){const igv=document.getElementById('insta').value.trim();const wav=document.getElementById('whatsapp').value.trim();const proper=/^\S+\s+\S+/.test(name.value.trim());send.disabled=!(proper&&day.value&&month.value&&celebrate&&wall&&(igv||wav)&&(!igv||igSet));}
 [name,day,month].forEach(el=>el.addEventListener('input',check));
 document.getElementById('f').addEventListener('submit',async e=>{
   e.preventDefault();send.disabled=true;

@@ -25,7 +25,8 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
   const { name, day, month, year, insta, whatsapp, celebrate, wall, ig, showyear, showwa, website } = req.body || {};
   if (website) return res.status(200).json({ ok: true }); // honeypot: pretend success, store nothing
   const d = parseInt(day, 10);
-  if (!name || typeof name !== 'string' || !name.trim() || name.length > 40) return res.status(400).json({ error: 'name' });
+  if (!name || typeof name !== 'string' || !name.trim() || name.length > 60) return res.status(400).json({ error: 'name' });
+  if (!/^\S+\s+\S+/.test(name.trim())) return res.status(400).json({ error: 'proper name (first and last) required' });
   const dim = { January:31, February:29, March:31, April:30, May:31, June:30, July:31, August:31, September:30, October:31, November:30, December:31 };
   if (!Number.isInteger(d) || d < 1 || !MONTHS.includes(month) || d > dim[month]) return res.status(400).json({ error: 'birthday' });
   if (insta && (typeof insta !== 'string' || insta.length > 40)) return res.status(400).json({ error: 'insta' });
@@ -34,6 +35,7 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
     wa = String(whatsapp).replace(/[\s()-]/g, '');
     if (!/^\+?[0-9]{10,15}$/.test(wa)) return res.status(400).json({ error: 'whatsapp' });
   }
+  if (!String(insta || '').trim() && !wa) return res.status(400).json({ error: 'instagram or whatsapp required' });
   let y = null;
   if (year !== undefined && year !== null && String(year).trim() !== '') {
     y = parseInt(year, 10);
@@ -56,7 +58,7 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
   } catch { return res.status(502).json({ error: 'storage' }); }
 
   const entry = {
-    name: name.trim().slice(0, 40),
+    name: name.trim().slice(0, 60),
     day: d,
     month,
     year: y, // public only when showyear==='show'
