@@ -6,7 +6,7 @@
 // Terms of Service (sec 13) prohibit scraping site content. Fetched server-side, no
 // login, no paid API. Cached 30 min.
 // Honest status per source is returned so the page can say what pulled and what didn't.
-const CACHE_KEY = 'discover:cache9';
+const CACHE_KEY = 'discover:cache10';
 const TTL_MS = 30 * 60 * 1000;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -33,6 +33,17 @@ const clip = (s, n) => (s || '')
   .replace(/[*_#>`\\]+/g, '')
   .replace(/\s+/g, ' ').trim().slice(0, n);
 const isoFrom = (dt) => { const d = new Date(dt); return Number.isNaN(+d) ? null : d.toISOString().slice(0, 10); };
+
+// User filter: discovery is for plans worth going out for - outings, gigs, comedy,
+// festivals, nightlife, one-off specials. Routine recurring sessions (tech/dev meetups,
+// networking mixers, study groups, weekly community circles) are dropped regardless of
+// platform, and self-inflated 'first ever'/'biggest' promo claims are dropped from the
+// routine sources. A special-event keyword wins over a routine one (e.g. a tech
+// community's trek stays). District keeps its own majors filter and is untouched.
+const ROUTINE_RE = /\b(tech|developers?|dev\s?ops|coding|programming|javascript|python|reactjs?|node\.?js|aws|kubernetes|docker|machine learning|data science|artificial intelligence|\bai\b|blockchain|web3|crypto|startup|founders?|saas|pitch(ing| deck)?|networking|business (meet|mixer)|\bbni\b|study (group|session)|book club|toastmasters?|language exchange|co-?working|weekly|every (week|monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b/i;
+const HYPE_RE = /\b(first[- ]ever|biggest|india'?s (largest|first)|world'?s (biggest|first))\b/i;
+const SPECIAL_RE = /\b(gig|live music|concert|comedy|stand[- ]?up|festival|\bfest\b|party|parties|\bdj\b|rave|club night|ladies night|bollywood night|techno|karaoke|trek(king)?|hike|hiking|stargazing|camp(ing|fire)?|sundowner|pub crawl|food (walk|tour|crawl)|night ?out|nightlife|boat(ing)?|kayak(ing)?)\b/i;
+const isRoutineSession = (text) => (ROUTINE_RE.test(text) || HYPE_RE.test(text)) && !SPECIAL_RE.test(text);
 const fmtDate = (iso) => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${d} ${['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][+m - 1]} ${y}`; };
 
 async function fromMeetup(citySlug, cityLabel, cap) {
@@ -50,6 +61,8 @@ async function fromMeetup(citySlug, cityLabel, cap) {
     // Local discovery only: skip online/virtual events - they are not Pune/Mumbai plans.
     const vname = (v.venue && v.venue.name) || '';
     if (String(v.eventType || '').toLowerCase() === 'online' || /^\s*(online|virtual)\b/i.test(vname)) continue;
+    const gname = groups[(v.group && v.group.__ref || '').split(':')[1]] || '';
+    if (isRoutineSession(`${v.title} ${gname} ${v.description || ''}`)) continue;
     out.push({
       title: clip(v.title, 120), date: iso, dateText: fmtDate(iso),
       desc: clip(v.description, 200),
@@ -57,7 +70,7 @@ async function fromMeetup(citySlug, cityLabel, cap) {
       price: v.feeSettings && v.feeSettings.amount != null ? `₹${v.feeSettings.amount}` : '',
       links: v.eventUrl ? [{ url: v.eventUrl, label: 'Meetup' }] : [],
       source: 'Meetup', city: cityLabel,
-      group: groups[(v.group && v.group.__ref || '').split(':')[1]] || '',
+      group: gname,
     });
   }
   return out.slice(0, cap);
@@ -116,6 +129,7 @@ async function fromReddit() {
       const lines = rest.split(/<br\/?>/).map(strip).filter(Boolean);
       const info = lines.filter((l) => l.startsWith('➜')).map((l) => l.replace(/^➜\s*/, ''));
       const links = [...rest.matchAll(/<a href="([^"]+)">([^<]*)<\/a>/g)].map((x) => ({ url: x[1], label: strip(x[2]) })).filter((l) => /^https?:\/\//.test(l.url)).slice(0, 3);
+      if (isRoutineSession(m[2] + ' ' + rest)) continue;
       events.push({
         title: strip(m[2]).slice(0, 120), date: `${year}-${String(mi + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
         dateText: dateLine, desc: clip(lines.filter((l) => !l.startsWith('➜') && !/^Tickets:/i.test(l)).join(' '), 200),
