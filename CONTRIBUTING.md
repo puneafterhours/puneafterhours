@@ -4,6 +4,8 @@ Small community site: birthdays wall, meetup proposals with RSVP, and a live "wh
 
 ## Stack
 - Plain HTML/CSS/JS pages in `public/` (no framework, no build step)
+- Shared UI lives in `public/components/ui.js`, a plain ES module (still no build step). Each page keeps its nav as static HTML (so it works with no JS and never flashes) and imports `mountChrome({ active })` as progressive enhancement to mark the current tab and sync the stylesheet version. The helpers `el`, `icon`, and `stateHTML` are exported there for reuse.
+- Bump the cache-busting stylesheet version in ONE place: `CSS_VERSION` in `public/components/ui.js`. Keep each page's inline `<link ... style.css?v=N>` in step with it (the module overrides it at runtime, but the inline value avoids an unstyled flash).
 - Serverless API routes in `api/` (Node, Vercel functions)
 - Upstash Redis (REST) for storage - keys: `entry:*`, `event:*`, sets `all:entries`, `all:events`, `discover:cache4`
 - `test-api.mjs` runs the API tests against a mocked store: `node test-api.mjs`
