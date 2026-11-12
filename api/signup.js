@@ -29,13 +29,13 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
   if (!/^\S+\s+\S+/.test(name.trim())) return res.status(400).json({ error: 'proper name (first and last) required' });
   const dim = { January:31, February:29, March:31, April:30, May:31, June:30, July:31, August:31, September:30, October:31, November:30, December:31 };
   if (!Number.isInteger(d) || d < 1 || !MONTHS.includes(month) || d > dim[month]) return res.status(400).json({ error: 'birthday' });
-  if (insta && (typeof insta !== 'string' || insta.length > 40)) return res.status(400).json({ error: 'insta' });
+  if (!insta || typeof insta !== 'string' || !insta.trim() || insta.length > 40) return res.status(400).json({ error: 'insta required' });
+  const igHandle = insta.trim().replace(/^@/, '');
+  if (!/^[A-Za-z0-9._]{2,30}$/.test(igHandle)) return res.status(400).json({ error: 'insta' });
   let wa = '';
-  if (whatsapp && String(whatsapp).trim()) {
-    wa = String(whatsapp).replace(/[\s()-]/g, '');
-    if (!/^\+?[0-9]{10,15}$/.test(wa)) return res.status(400).json({ error: 'whatsapp' });
-  }
-  if (!String(insta || '').trim() && !wa) return res.status(400).json({ error: 'instagram or whatsapp required' });
+  if (!whatsapp || !String(whatsapp).trim()) return res.status(400).json({ error: 'whatsapp required' });
+  wa = String(whatsapp).replace(/[\s()-]/g, '');
+  if (!/^\+?[0-9]{10,15}$/.test(wa)) return res.status(400).json({ error: 'whatsapp' });
   let y = null;
   if (year !== undefined && year !== null && String(year).trim() !== '') {
     y = parseInt(year, 10);
@@ -63,11 +63,12 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
     month,
     year: y, // public only when showyear==='show'
     showyear: showyear === 'show' && y ? 'show' : 'hide',
-    whatsapp: wa,
-    showwa: showwa === 'show' && wa ? 'show' : 'hide',
-    insta: ig === 'show' && insta ? insta.trim().slice(0, 40) : '',
+    whatsapp: wa, // always private to the team, never on the wall
+    showwa: 'hide',
+    insta: ig === 'show' ? '@' + igHandle : igHandle, // stored either way; ig controls wall display
     celebrate: VIBES.includes(celebrate) ? celebrate : '',
     wall: wall === 'wall',
+    status: 'pending', // team verifies before the wall shows it
     ts: Date.now(),
   };
   const id = `entry:${entry.ts}:${Math.random().toString(36).slice(2, 10)}`;

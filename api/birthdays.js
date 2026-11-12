@@ -22,8 +22,8 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
   if (values && typeof values === 'object' && !Array.isArray(values) && 'result' in values) values = values.result;
   const entries = (values || [])
     .map((v) => { try { return typeof v === 'string' ? JSON.parse(v) : v; } catch { return null; } })
-    .filter((e) => e && e.wall)
-    .map(({ name, day, month, insta, celebrate, year, showyear, whatsapp, showwa }) => ({ name, day, month, insta, celebrate, ...(showyear === 'show' && year ? { year } : {}), ...(showwa === 'show' && whatsapp ? { whatsapp } : {}) }));
+    .filter((e) => e && e.wall && e.status !== 'pending')
+    .map(({ name, day, month, insta, celebrate, year, showyear }) => ({ name, day, month, insta, celebrate, ...(showyear === 'show' && year ? { year } : {}) }));
   res.setHeader('Cache-Control', 'no-store');
   return res.status(200).json({ entries });
 }

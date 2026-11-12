@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       }).filter(Boolean);
       return res.status(200).json({
         events: out.filter((v) => v.id.startsWith('event:')).map(({ id, title, when, area, name, phone, going, maybe, status, ts }) => ({ id, title, when, area, name, phone, going, maybe, status: status || 'proposed', ts })),
-        entries: out.filter((v) => v.id.startsWith('entry:')).map(({ id, name, day, month, year, insta, whatsapp, showwa, celebrate, wall, showig, ts }) => ({ id, name, day, month, year, insta, whatsapp, showwa, celebrate, wall, showig, ts })),
+        entries: out.filter((v) => v.id.startsWith('entry:')).map(({ id, name, day, month, year, insta, whatsapp, showwa, celebrate, wall, showig, status, ts }) => ({ id, name, day, month, year, insta, whatsapp, showwa, celebrate, wall, showig, status: status || 'approved', ts })),
       });
     }
     if (action === 'delete' && typeof id === 'string' && (id.startsWith('event:') || id.startsWith('entry:'))) {
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       await kv(URL_, TOK, `/srem/all:${id.startsWith('event:') ? 'events' : 'entries'}/${encodeURIComponent(id)}`);
       return res.status(200).json({ ok: true });
     }
-    if (action === 'approve' && typeof id === 'string' && id.startsWith('event:')) {
+    if (action === 'approve' && typeof id === 'string' && (id.startsWith('event:') || id.startsWith('entry:'))) {
       const raw = await kv(URL_, TOK, `/get/${encodeURIComponent(id)}`);
       let ev = null;
       try { ev = typeof raw === 'string' ? JSON.parse(raw) : raw; } catch {}

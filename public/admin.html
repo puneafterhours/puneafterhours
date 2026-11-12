@@ -56,7 +56,7 @@ async function load(){
  ev.innerHTML=j.events.length?'':'<div class="empty">No proposals.</div>';
  en.innerHTML=j.entries.length?'':'<div class="empty">No birthdays.</div>';
  j.events.forEach(e=>ev.appendChild(row(e,e.title+' - by '+e.name+', '+e.going+' going ('+(e.status||'proposed')+')'+(e.phone?' · '+e.phone:''))));
- j.entries.forEach(e=>en.appendChild(row(e,e.name+' - '+e.day+' '+(e.month||'')+(e.insta?' · @'+e.insta:'')+(e.whatsapp?' · '+e.whatsapp:'')+(e.wall?'':' · hidden'))));
+ j.entries.forEach(e=>en.appendChild(row(e,e.name+' - '+e.day+' '+(e.month||'')+((e.status||'approved')==='pending'?' · PENDING':'')+(e.insta?' · @'+String(e.insta).replace(/^@/,''):'')+(e.whatsapp?' · '+e.whatsapp:'')+(e.wall?'':' · hidden'))));
 }
 document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();PASS=document.getElementById('pass').value;load();});
 </script>
