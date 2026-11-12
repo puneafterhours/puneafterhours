@@ -274,6 +274,16 @@ h2 .msym { font-size: 24px; margin-right: 8px; vertical-align: -4px; }
 .tag .msym { font-size: 15px; margin-right: 4px; vertical-align: -2px; }
 .acts a .msym { font-size: 16px; margin-right: 4px; vertical-align: -3px; }
 
+/* Filter chips on the What's on list: a toggled chip takes the choice-on fill,
+   matching the choice-group style. aria-pressed drives the same look as .on. */
+#fz { margin-top: 10px; }
+#fz button[aria-pressed="true"] { background: var(--rim); color: #fff; }
+
+/* Add-to-calendar actions on a locked plan: two pills in a row, not form submits,
+   so they sit inline and size to content instead of stretching full width. */
+#cal { margin-top: 18px; }
+#cal .send { margin-top: 0; align-self: flex-start; text-align: left; }
+
 @media (max-width: 640px) {
   .tabs a .msym { font-size: 16px; margin-right: 4px; }
   h1 .msym { font-size: 30px; margin-right: 8px; }

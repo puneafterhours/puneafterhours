@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=12">
+<link rel="stylesheet" href="/style.css?v=13">
 </head>
 <body>
 <header class="bar">
@@ -35,6 +35,85 @@ function paint(st){
   el.textContent=locked?'locked in - confirmed by the host':'proposal - not confirmed yet';
   el.className=locked?'state ok':'state';
 }
+// Best-effort parse of a date from the freeform "when" text. Returns a YYYYMMDD string
+// for an all-day calendar entry, or '' when nothing parseable is found. A proposal's
+// time is rough, so we keep it all-day and let the user adjust in their calendar.
+function parseWhenDate(when){
+  if(!when) return '';
+  const now=new Date();
+  // Explicit numeric date: 12/3, 12-03-2026, 2026-03-12
+  let m=when.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+  if(m) return m[1]+String(m[2]).padStart(2,'0')+String(m[3]).padStart(2,'0');
+  m=when.match(/\b(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?\b/);
+  if(m){let y=m[3]?(+m[3]<100?2000+ +m[3]:+m[3]):now.getFullYear();return y+String(m[1]).padStart(2,'0')+String(m[2]).padStart(2,'0');}
+  // "12 March" / "March 12" (+ optional year)
+  const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
+  const low=when.toLowerCase();
+  const mon=MONTHS.findIndex(mm=>low.includes(mm.slice(0,3)));
+  if(mon>=0){
+    const dm=low.match(/\b(\d{1,2})\b/);
+    const ym=low.match(/\b(20\d\d)\b/);
+    if(dm){let y=ym?+ym[1]:now.getFullYear();
+      // If the month already passed this year and no year was given, roll to next year.
+      if(!ym&&(mon<now.getMonth()||(mon===now.getMonth()&&+dm[1]<now.getDate())))y++;
+      return y+String(mon+1).padStart(2,'0')+String(dm[1]).padStart(2,'0');}
+  }
+  return '';
+}
+// Builds the Add-to-calendar actions, shown only when the plan is locked.
+function calendar(e,st){
+  const box=document.getElementById('cal');
+  if(!box) return;
+  const status=st!=null?st:e.status;
+  if(status!=='locked'){box.style.display='none';box.innerHTML='';return;}
+  box.innerHTML='';
+  const title=e.title||'PuneAfterhours plan';
+  const details=[e.details||'',e.when?('When: '+e.when):'','',('Plan page: '+location.origin+'/e?id='+encodeURIComponent(id))].filter(x=>x!=='').join('\n');
+  const loc=e.area||'';
+  // Prefer the host-confirmed startsAt. Timed (YYYY-MM-DDTHH:MM) -> a real timed event
+  // (2h default); date-only (YYYY-MM-DD) -> all-day. Only guess from freeform "when"
+  // when no confirmed time exists.
+  function plusDay(s){const d=new Date(+s.slice(0,4),+s.slice(4,6)-1,+s.slice(6,8)+1);return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+  const sa=(e.startsAt||'').trim();
+  const timed=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(sa);
+  let dates='',dtLines=[];
+  if(timed){
+    const basic=sa.slice(0,16).replace(/[-:]/g,'');           // YYYYMMDDTHHMM
+    const start=basic+'00';                                   // local, no Z
+    const sd=new Date(sa);const ed=new Date(sd.getTime()+2*3600e3);
+    const pad=(n)=>String(n).padStart(2,'0');
+    const end=ed.getFullYear()+pad(ed.getMonth()+1)+pad(ed.getDate())+'T'+pad(ed.getHours())+pad(ed.getMinutes())+'00';
+    dates=start+'/'+end;
+    dtLines=['DTSTART:'+start,'DTEND:'+end];
+  } else {
+    const ymd=/^\d{4}-\d{2}-\d{2}$/.test(sa)?sa.replace(/-/g,''):parseWhenDate(e.when);
+    if(ymd){dates=ymd+'/'+plusDay(ymd);dtLines=['DTSTART;VALUE=DATE:'+ymd,'DTEND;VALUE=DATE:'+plusDay(ymd)];}
+  }
+  // Google Calendar
+  const g=new URL('https://calendar.google.com/calendar/render');
+  g.searchParams.set('action','TEMPLATE');
+  g.searchParams.set('text',title);
+  g.searchParams.set('details',details);
+  if(loc)g.searchParams.set('location',loc);
+  if(dates)g.searchParams.set('dates',dates);
+  const ga=document.createElement('a');ga.className='send';ga.href=g.toString();ga.target='_blank';ga.rel='noopener';
+  ga.appendChild(iconSpan('event_available'));ga.appendChild(document.createTextNode('Google Calendar'));
+  // ICS download (Apple/Outlook/etc.)
+  const esc2=(s)=>String(s||'').replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+Z$/,'Z');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PuneAfterhours//EN','BEGIN:VEVENT',
+    'UID:'+encodeURIComponent(id)+'@puneafterhours','DTSTAMP:'+stamp,
+    ...dtLines,
+    'SUMMARY:'+esc2(title),'DESCRIPTION:'+esc2(details),...(loc?['LOCATION:'+esc2(loc)]:[]),
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const ia=document.createElement('a');ia.className='send quiet';
+  ia.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
+  ia.download=(title.replace(/[^a-z0-9]+/gi,'-').slice(0,40)||'plan')+'.ics';
+  ia.appendChild(iconSpan('download'));ia.appendChild(document.createTextNode('Download .ics'));
+  box.appendChild(ga);box.appendChild(ia);
+  box.style.display='';
+}
+function iconSpan(name){const s=document.createElement('span');s.className='msym';s.setAttribute('aria-hidden','true');s.textContent=name;return s;}
 fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e})=>{
   const box=document.getElementById('ev');
   if(!e){box.innerHTML='<div class="empty"><span class="msym" aria-hidden="true">search_off</span>Plan not found.</div>';return;}
@@ -62,18 +141,27 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
         <div class="done" id="done">You're on the list. The host confirms it by locking the plan.</div>
       </form>
     </div>
-    <div class="card" id="mg" style="display:none"><b>Host controls</b><div class="choices" id="mact"><button type="button" data-a="lock">Lock it in</button><button type="button" data-a="unlock">Back to proposal</button><button type="button" data-a="cancel">Cancel plan</button><button type="button" data-a="delete">Delete</button></div><div class="hint" id="mmsg"></div></div>
+    <div class="choices" id="cal" style="display:none"></div>
+    <div class="card" id="mg" style="display:none"><b>Host controls</b><label for="lockwhen">Confirmed date & time (set when you lock it in)</label><input type="datetime-local" id="lockwhen"><div class="hint">Optional but recommended. This is what "Add to calendar" uses. Leave the time blank for a day-only plan.</div><div class="choices" id="mact"><button type="button" data-a="lock"><span class="msym" aria-hidden="true">lock</span>Lock it in</button><button type="button" data-a="unlock">Back to proposal</button><button type="button" data-a="cancel">Cancel plan</button><button type="button" data-a="delete">Delete</button></div><div class="hint" id="mmsg"></div></div>
     <a class="wall-link" href="/events"><span class="msym" aria-hidden="true">event</span>All plans</a>`;
+  calendar(e);
   paint(e.status);
   const key=new URLSearchParams(location.search).get('k')||(()=>{try{return localStorage.getItem('mk:'+id)}catch{return null}})();
   if(key){document.getElementById('mg').style.display='block';
+    const lw=document.getElementById('lockwhen');
+    // Prefill with the already-confirmed time (datetime-local wants YYYY-MM-DDTHH:MM).
+    if(e.startsAt)lw.value=e.startsAt.length===10?e.startsAt+'T00:00':e.startsAt.slice(0,16);
     document.getElementById('mact').addEventListener('click',async ev=>{const b=ev.target.closest('button');if(!b)return;const a=b.dataset.a;if((a==='delete'||a==='cancel')&&!confirm(a+' this plan?'))return;
-      const r=await fetch('/api/manage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,key,action:a})});
+      // On lock, send the host's chosen date/time. A midnight time means "day only".
+      let startsAt;
+      if(a==='lock'&&lw.value){startsAt=/T00:00(:00)?$/.test(lw.value)?lw.value.slice(0,10):lw.value.slice(0,16);}
+      const r=await fetch('/api/manage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,key,action:a,...(startsAt?{startsAt}:{})})});
       const m=document.getElementById('mmsg');
       if(!r.ok){m.textContent='That did not work (wrong or expired key).';return;}
-      const j=await r.json();m.textContent='Done: '+j.status+'.';
+      const j=await r.json();m.textContent='Done: '+j.status+(j.startsAt?' for '+j.startsAt.replace('T',' '):'')+'.';
       if(j.status==='deleted'||j.status==='cancelled'){setTimeout(()=>location.href='/events',900);return;}
-      paint(j.status);});}
+      e.startsAt=j.startsAt||undefined;
+      paint(j.status);calendar(e,j.status);});}
   let status='';
   const send=document.getElementById('send'),name=document.getElementById('name');
   document.getElementById('rsvp').addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;document.querySelectorAll('#rsvp button').forEach(x=>x.classList.toggle('on',x===b));status=b.dataset.v;send.disabled=!(name.value.trim()&&status);});

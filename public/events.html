@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=12">
+<link rel="stylesheet" href="/style.css?v=13">
 </head>
 <body>
 <header class="bar">
@@ -35,6 +35,7 @@
   <h2><span class="msym" aria-hidden="true">nightlife</span>What's on</h2>
   <p class="sub">Pulled live from across the internet. Meetup, District and the r/punetonight guides. Routine tech, networking and study sessions are filtered out; outings, gigs, comedy, festivals, parties and nights out stay. Every card links to its source. Pick a period.</p>
   <div class="choices" id="hz"></div>
+  <div class="choices" id="fz"></div>
   <div id="ideas" class="rows"><div class="empty loading"><span class="msym" aria-hidden="true">progress_activity</span>Loading…</div></div>
   <h2><span class="msym" aria-hidden="true">directions_car</span>Mumbai</h2>
   <p class="sub">Worth the drive.</p>
@@ -72,6 +73,36 @@ const PERIODS=[
   {k:'27',l:'Rest of 2027',a:'2027-04-01',b:'2027-12-31'},
   {k:'all',l:'Everything upcoming',a:'2000-01-01',b:'2099-12-31'}];
 let PUNE=[],MUM=[],IND=[],cur='nov';
+// Weekend range (coming Fri-Sun, IST), computed once and reused by the sub-heading,
+// the weekend section, and the "This weekend" filter chip.
+const istNow=new Date(Date.now()+5.5*3600e3);
+const sinceFri=(istNow.getUTCDay()-5+7)%7;
+const friD=new Date(istNow);
+if(sinceFri<=2)friD.setUTCDate(friD.getUTCDate()-sinceFri);else friD.setUTCDate(friD.getUTCDate()+(7-sinceFri));
+const sunD=new Date(friD);sunD.setUTCDate(sunD.getUTCDate()+2);
+const friIso=friD.toISOString().slice(0,10),sunIso=sunD.toISOString().slice(0,10);
+// Client-side filters for the "What's on" list. Built from fields already in the
+// discover payload (price, title/desc/place text, date) - no backend change.
+const PARTY_RE=/\b(party|parties|dj|rave|club|nightlife|bollywood|techno|trance|psytrance|ladies night|sundowner|pub crawl|live music|gig|concert|band|karaoke|dance)\b/i;
+const isFree=(e)=>{const p=(e.price||'').toLowerCase();return !e.price||/\bfree\b/.test(p)||/(^|[^0-9])0($|[^0-9])/.test(p.replace(/from|₹|rs\.?|inr/gi,''));};
+const isNightlife=(e)=>PARTY_RE.test(`${e.title} ${e.desc||''} ${e.place||''}`);
+const isWeekend=(e)=>{if(!e.date)return false;if(e.date>sunIso)return false;if(e.date>=friIso)return e.date>=todayIso;const end=endIso(e);return !!(end&&end>=friIso&&end>=todayIso);};
+const FILTERS=[
+  {k:'free',l:'Free only',i:'money_off',fn:isFree},
+  {k:'wknd',l:'This weekend',i:'weekend',fn:isWeekend},
+  {k:'night',l:'Nightlife',i:'nightlife',fn:isNightlife}];
+const active=new Set();
+const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const RANGE=/[A-Z]{3}\s+\d{1,2}\s*[-–—]\s*[A-Z]{3}\s+(\d{1,2})\s+([A-Z]{3})/;
+// End date of a multi-day event parsed from its dateText range, else ''.
+function endIso(e){
+  const m=(e.dateText||'').match(RANGE);if(!m)return '';
+  const em=MN.findIndex(x=>x.toUpperCase()===m[2]);
+  if(em<0)return '';
+  let y=parseInt(e.date.slice(0,4));
+  if(em<parseInt(e.date.slice(5,7))-1)y++;
+  return y+'-'+String(em+1).padStart(2,'0')+'-'+m[1].padStart(2,'0');
+}
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 function icon(name){const s=el('span','msym',name);s.setAttribute('aria-hidden','true');return s;}
 function card(e,srcTag){
@@ -92,43 +123,26 @@ function card(e,srcTag){
 }
 function render(){
   const hz=document.getElementById('hz');hz.innerHTML='';
-  PERIODS.forEach(p=>{const b=el('button',p.k===cur?'on':'',p.l);b.type='button';b.onclick=()=>{cur=p.k;render();};hz.appendChild(b);});
+  PERIODS.forEach(p=>{const b=el('button',p.k===cur?'on':'');b.appendChild(document.createTextNode(p.l));b.type='button';b.onclick=()=>{cur=p.k;render();};hz.appendChild(b);});
+  const fz=document.getElementById('fz');fz.innerHTML='';
+  FILTERS.forEach(f=>{const b=el('button',active.has(f.k)?'on':'');b.appendChild(icon(f.i));b.appendChild(document.createTextNode(f.l));b.type='button';b.setAttribute('aria-pressed',active.has(f.k)?'true':'false');b.onclick=()=>{active.has(f.k)?active.delete(f.k):active.add(f.k);render();};fz.appendChild(b);});
   const p=PERIODS.find(x=>x.k===cur);
   const box=document.getElementById('ideas');box.innerHTML='';
-  const list=PUNE.filter(e=>e.date>=p.a&&e.date<=p.b&&e.date>=todayIso);
-  if(!list.length){box.innerHTML='<div class="empty"><span class="msym" aria-hidden="true">inbox</span>Nothing source-backed for this period yet. This updates automatically as sources announce more.</div>';return;}
+  let list=PUNE.filter(e=>e.date>=p.a&&e.date<=p.b&&e.date>=todayIso);
+  FILTERS.forEach(f=>{if(active.has(f.k))list=list.filter(f.fn);});
+  if(!list.length){
+    const why=active.size?'No source-backed events match these filters for this period. Clear a filter or pick another period.':'Nothing source-backed for this period yet. This updates automatically as sources announce more.';
+    box.innerHTML='<div class="empty"><span class="msym" aria-hidden="true">inbox</span>'+why+'</div>';return;}
   list.forEach(e=>box.appendChild(card(e,true)));
 }
 fetch('/api/discover').then(r=>r.json()).then(d=>{
   PUNE=d.pune||[];MUM=d.mumbai||[];IND=d.india||[];
   render();
-  const istNow=new Date(Date.now()+5.5*3600e3);
-  const dow=istNow.getUTCDay();
-  const sinceFri=(dow-5+7)%7;
-  const fri=new Date(istNow);
-  if(sinceFri<=2)fri.setUTCDate(fri.getUTCDate()-sinceFri);else fri.setUTCDate(fri.getUTCDate()+(7-sinceFri));
-  const sun=new Date(fri);sun.setUTCDate(sun.getUTCDate()+2);
-  const friIso=fri.toISOString().slice(0,10),sunIso=sun.toISOString().slice(0,10);
-  const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const fd=parseInt(friIso.slice(8,10)),sd=parseInt(sunIso.slice(8,10));
   const fm=MN[parseInt(friIso.slice(5,7))-1],sm=MN[parseInt(sunIso.slice(5,7))-1];
   document.getElementById('wknd-sub').textContent='Source-backed things happening in Pune, Fri '+fd+' '+fm+' to Sun '+sd+' '+sm+'.';
   const wbox=document.getElementById('wknd');wbox.innerHTML='';
-  const RANGE=/[A-Z]{3}\s+\d{1,2}\s*[-–—]\s*[A-Z]{3}\s+(\d{1,2})\s+([A-Z]{3})/;
-  function endIso(e){
-    const m=(e.dateText||'').match(RANGE);if(!m)return '';
-    const em=MN.findIndex(x=>x.toUpperCase()===m[2]);
-    if(em<0)return '';
-    let y=parseInt(e.date.slice(0,4));
-    if(em<parseInt(e.date.slice(5,7))-1)y++;
-    return y+'-'+String(em+1).padStart(2,'0')+'-'+m[1].padStart(2,'0');
-  }
-  const wlist=PUNE.filter(e=>{
-    if(!e.date||e.date>sunIso)return false;
-    if(e.date>=friIso)return e.date>=todayIso;
-    const end=endIso(e);
-    return end&&end>=friIso&&end>=todayIso;
-  });
+  const wlist=PUNE.filter(isWeekend);
   if(!wlist.length)wbox.innerHTML='<div class="empty"><span class="msym" aria-hidden="true">inbox</span>Nothing source-backed for this weekend yet. New plans appear as sources announce them, or propose your own above.</div>';
   wlist.forEach(e=>wbox.appendChild(card(e,true)));
   const mbox=document.getElementById('mum');mbox.innerHTML='';
