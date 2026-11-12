@@ -1,96 +1,150 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-12T01:27:00+05:30",
+  "generatedAt": "2026-11-12T18:08:34+05:30",
   "title": "Design System: PuneAfterhours",
   "extensions": {
     "colorMeta": {
-      "newsprint": {
-        "role": "neutral",
-        "displayName": "Newsprint",
-        "canonical": "#c5c8c4",
-        "tonalRamp": ["oklch(15.0% 0.004 138.6)", "oklch(26.4% 0.005 138.6)", "oklch(37.9% 0.006 138.6)", "oklch(49.3% 0.006 138.6)", "oklch(60.7% 0.006 138.6)", "oklch(72.1% 0.006 138.6)", "oklch(83.6% 0.006 138.6)", "oklch(95.0% 0.003 138.6)"]
+      "magenta": {
+        "role": "primary",
+        "displayName": "Birthday Magenta",
+        "canonical": "#c2185b",
+        "tonalRamp": [
+          "oklch(15.0% 0.060 5.6)",
+          "oklch(26.4% 0.106 5.6)",
+          "oklch(37.9% 0.152 5.6)",
+          "oklch(49.3% 0.198 5.6)",
+          "oklch(60.7% 0.202 5.6)",
+          "oklch(72.1% 0.183 5.6)",
+          "oklch(83.6% 0.095 5.6)",
+          "oklch(95.0% 0.026 5.6)"
+        ]
       },
-      "sheet": {
-        "role": "neutral",
-        "displayName": "Sheet",
-        "canonical": "#e7e8e4",
-        "tonalRamp": ["oklch(15.0% 0.003 118.7)", "oklch(26.4% 0.004 118.7)", "oklch(37.9% 0.005 118.7)", "oklch(49.3% 0.005 118.7)", "oklch(60.7% 0.005 118.7)", "oklch(72.1% 0.005 118.7)", "oklch(83.6% 0.005 118.7)", "oklch(95.0% 0.002 118.7)"]
+      "turmeric": {
+        "role": "primary",
+        "displayName": "Wall Turmeric",
+        "canonical": "#f0b400",
+        "tonalRamp": [
+          "oklch(15.0% 0.031 84.3)",
+          "oklch(26.4% 0.054 84.3)",
+          "oklch(37.9% 0.078 84.3)",
+          "oklch(49.3% 0.101 84.3)",
+          "oklch(60.7% 0.125 84.3)",
+          "oklch(72.1% 0.148 84.3)",
+          "oklch(83.6% 0.102 84.3)",
+          "oklch(95.0% 0.052 84.3)"
+        ]
       },
-      "field": {
-        "role": "neutral",
-        "displayName": "Field",
-        "canonical": "#f7f7f5",
-        "tonalRamp": ["oklch(15.0% 0.001 107.7)", "oklch(26.4% 0.002 107.7)", "oklch(37.9% 0.003 107.7)", "oklch(49.3% 0.003 107.7)", "oklch(60.7% 0.003 107.7)", "oklch(72.1% 0.003 107.7)", "oklch(83.6% 0.002 107.7)", "oklch(95.0% 0.001 107.7)"]
+      "indigo": {
+        "role": "primary",
+        "displayName": "Proposal Indigo",
+        "canonical": "#3949ab",
+        "tonalRamp": [
+          "oklch(15.0% 0.063 271.6)",
+          "oklch(26.4% 0.110 271.6)",
+          "oklch(37.9% 0.144 271.6)",
+          "oklch(49.3% 0.157 271.6)",
+          "oklch(60.7% 0.157 271.6)",
+          "oklch(72.1% 0.144 271.6)",
+          "oklch(83.6% 0.081 271.6)",
+          "oklch(95.0% 0.024 271.6)"
+        ]
       },
-      "on-red": {
+      "leaf": {
+        "role": "primary",
+        "displayName": "Leaf",
+        "canonical": "#2e7d32",
+        "tonalRamp": [
+          "oklch(15.0% 0.048 144.2)",
+          "oklch(26.4% 0.085 144.2)",
+          "oklch(37.9% 0.122 144.2)",
+          "oklch(49.3% 0.135 144.2)",
+          "oklch(60.7% 0.135 144.2)",
+          "oklch(72.1% 0.124 144.2)",
+          "oklch(83.6% 0.083 144.2)",
+          "oklch(95.0% 0.043 144.2)"
+        ]
+      },
+      "magenta-wash": {
+        "role": "primary",
+        "displayName": "Magenta Wash",
+        "canonical": "#f3d0de",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 351.9)",
+          "oklch(26.4% 0.030 351.9)",
+          "oklch(37.9% 0.040 351.9)",
+          "oklch(49.3% 0.043 351.9)",
+          "oklch(60.7% 0.043 351.9)",
+          "oklch(72.1% 0.040 351.9)",
+          "oklch(83.6% 0.027 351.9)",
+          "oklch(95.0% 0.014 351.9)"
+        ]
+      },
+      "white": {
         "role": "neutral",
-        "displayName": "On-red Cream",
-        "canonical": "#fff7f2",
-        "tonalRamp": ["oklch(15.0% 0.006 54.2)", "oklch(26.4% 0.009 54.2)", "oklch(37.9% 0.011 54.2)", "oklch(49.3% 0.011 54.2)", "oklch(60.7% 0.011 54.2)", "oklch(72.1% 0.011 54.2)", "oklch(83.6% 0.010 54.2)", "oklch(95.0% 0.005 54.2)"]
+        "displayName": "White",
+        "canonical": "#fff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
       },
       "ink": {
         "role": "neutral",
         "displayName": "Ink",
-        "canonical": "#1c1916",
-        "tonalRamp": ["oklch(15.0% 0.004 67.4)", "oklch(26.4% 0.006 67.4)", "oklch(37.9% 0.007 67.4)", "oklch(49.3% 0.007 67.4)", "oklch(60.7% 0.007 67.4)", "oklch(72.1% 0.007 67.4)", "oklch(83.6% 0.007 67.4)", "oklch(95.0% 0.003 67.4)"]
+        "canonical": "#1c1914",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 80.6)",
+          "oklch(26.4% 0.007 80.6)",
+          "oklch(37.9% 0.010 80.6)",
+          "oklch(49.3% 0.011 80.6)",
+          "oklch(60.7% 0.011 80.6)",
+          "oklch(72.1% 0.010 80.6)",
+          "oklch(83.6% 0.007 80.6)",
+          "oklch(95.0% 0.003 80.6)"
+        ]
       },
-      "muted": {
+      "rim": {
         "role": "neutral",
-        "displayName": "Muted",
-        "canonical": "#2c3833",
-        "tonalRamp": ["oklch(15.0% 0.010 168.1)", "oklch(26.4% 0.015 168.1)", "oklch(37.9% 0.018 168.1)", "oklch(49.3% 0.018 168.1)", "oklch(60.7% 0.018 168.1)", "oklch(72.1% 0.018 168.1)", "oklch(83.6% 0.017 168.1)", "oklch(95.0% 0.008 168.1)"]
-      },
-      "neighbor": {
-        "role": "neutral",
-        "displayName": "Neighbor",
-        "canonical": "#394640",
-        "tonalRamp": ["oklch(15.0% 0.011 165.8)", "oklch(26.4% 0.016 165.8)", "oklch(37.9% 0.020 165.8)", "oklch(49.3% 0.020 165.8)", "oklch(60.7% 0.020 165.8)", "oklch(72.1% 0.020 165.8)", "oklch(83.6% 0.018 165.8)", "oklch(95.0% 0.009 165.8)"]
-      },
-      "rule": {
-        "role": "neutral",
-        "displayName": "Hairline",
-        "canonical": "rgba(28, 25, 22, .22)",
-        "tonalRamp": ["oklch(15.0% 0.004 67.4)", "oklch(26.4% 0.006 67.4)", "oklch(37.9% 0.007 67.4)", "oklch(49.3% 0.007 67.4)", "oklch(60.7% 0.007 67.4)", "oklch(72.1% 0.007 67.4)", "oklch(83.6% 0.007 67.4)", "oklch(95.0% 0.003 67.4)"]
-      },
-      "red": {
-        "role": "primary",
-        "displayName": "Shell Red",
-        "canonical": "#9c1c16",
-        "tonalRamp": ["oklch(15.0% 0.094 28.6)", "oklch(26.4% 0.134 28.6)", "oklch(37.9% 0.164 28.6)", "oklch(49.3% 0.164 28.6)", "oklch(60.7% 0.164 28.6)", "oklch(72.1% 0.164 28.6)", "oklch(83.6% 0.153 28.6)", "oklch(95.0% 0.075 28.6)"]
-      },
-      "ok": {
-        "role": "state",
-        "displayName": "Locked Green",
-        "canonical": "#2f5d50",
-        "tonalRamp": ["oklch(15.0% 0.032 173.2)", "oklch(26.4% 0.045 173.2)", "oklch(37.9% 0.056 173.2)", "oklch(49.3% 0.056 173.2)", "oklch(60.7% 0.056 173.2)", "oklch(72.1% 0.056 173.2)", "oklch(83.6% 0.052 173.2)", "oklch(95.0% 0.025 173.2)"]
-      },
-      "confirm": {
-        "role": "state",
-        "displayName": "Confirm Wash",
-        "canonical": "#e5f2eb",
-        "tonalRamp": ["oklch(15.0% 0.009 163.1)", "oklch(26.4% 0.014 163.1)", "oklch(37.9% 0.017 163.1)", "oklch(49.3% 0.017 163.1)", "oklch(60.7% 0.017 163.1)", "oklch(72.1% 0.017 163.1)", "oklch(83.6% 0.015 163.1)", "oklch(95.0% 0.008 163.1)"]
+        "displayName": "Rim",
+        "canonical": "#111",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Page title, in Shell Red."
+        "purpose": "The page title, in ink."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Section and job headings, in Shell Red. The shell wordmark uses the same face at 32px."
+        "purpose": "Section headings on white, and the name of a pan in that pan's foreground."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "The one fact in a job sheet, in Ink, set in Source Sans 3."
+        "purpose": "The one fact in a pan."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Sentences. Opening and section lines are 18px, capped at 68 characters."
+        "purpose": "Sentences. Opening lines are 18px, capped at 68 characters."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Form labels. The same size at regular weight, in Muted, is hint and detail text."
+        "purpose": "Form labels, nav links, and buttons."
       }
     },
     "shadows": [],
@@ -98,7 +152,7 @@
       {
         "name": "cut",
         "value": "0s",
-        "purpose": "Hover, the selected choice, and the row that holds focus change color immediately. No transition duration is set."
+        "purpose": "Hover and selection swap a fill immediately. No transition duration is set."
       },
       {
         "name": "scroll",
@@ -107,8 +161,14 @@
       }
     ],
     "breakpoints": [
-      { "name": "jobs-two", "value": "980px" },
-      { "name": "phone", "value": "640px" }
+      {
+        "name": "jobs-two",
+        "value": "980px"
+      },
+      {
+        "name": "phone",
+        "value": "640px"
+      }
     ]
   },
   "components": [
@@ -116,145 +176,169 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The action stamp. Ink at rest, Shell Red on hover, used at the end of a job sheet and as the form submit.",
+      "description": "The action. A black pill with white type that inverts on hover.",
       "html": "<button class=\"ds-btn\" type=\"button\">Add your birthday</button>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap\"); .ds-btn { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; background: var(--ink, #1c1916); color: var(--field, #f7f7f5); border: 0; border-radius: 6px; padding: 11px 14px; text-decoration: none; cursor: pointer; } .ds-btn:hover { background: var(--red, #9c1c16); color: var(--field, #f7f7f5); } .ds-btn:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; } .ds-btn:disabled { opacity: .45; cursor: default; } .ds-btn:disabled:hover { background: var(--ink, #1c1916); }"
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-btn { font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-size: 16px; font-weight: 700; line-height: 1.45; background: var(--rim, #111); color: #fff; border: 2px solid var(--rim, #111); border-radius: 999px; padding: 8px 14px; text-decoration: none; cursor: pointer; } .ds-btn:hover { background: #fff; color: var(--rim, #111); } .ds-btn:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; } .ds-btn:disabled { opacity: .45; cursor: default; } .ds-btn:disabled:hover { background: var(--rim, #111); color: #fff; }"
     },
     {
       "name": "Quiet Button",
       "kind": "button",
       "refersTo": "button-quiet",
-      "description": "The undo. Transparent with an ink stroke; hover fills ink and flips the type to field.",
+      "description": "The undo. A white pill with a black stroke that fills black on hover.",
       "html": "<button class=\"ds-btn-quiet\" type=\"button\">Remove my RSVP</button>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap\"); .ds-btn-quiet { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; background: transparent; color: var(--ink, #1c1916); border: 1.5px solid var(--ink, #1c1916); border-radius: 6px; padding: 11px 14px; cursor: pointer; } .ds-btn-quiet:hover { background: var(--ink, #1c1916); color: var(--field, #f7f7f5); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-btn-quiet { font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-size: 16px; font-weight: 700; background: #fff; color: var(--rim, #111); border: 2px solid var(--rim, #111); border-radius: 999px; padding: 8px 14px; cursor: pointer; } .ds-btn-quiet:hover { background: var(--rim, #111); color: #fff; } .ds-btn-quiet:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; }"
     },
     {
       "name": "Choice Pill",
       "kind": "chip",
       "refersTo": "button-choice",
-      "description": "A single-select choice. The selected pill is ink; the others stay field. Hover does not fill them.",
+      "description": "A single-select choice. The selected pill is black; the others stay white. Hover does not fill them.",
       "html": "<div class=\"ds-choices\"><button class=\"ds-choice\" type=\"button\">Just a shoutout</button><button class=\"ds-choice on\" type=\"button\">Plan a night out</button></div>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap\"); .ds-choices { display: flex; flex-wrap: wrap; gap: 8px; } .ds-choice { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--ink, #1c1916); background: var(--field, #f7f7f5); color: var(--ink, #1c1916); cursor: pointer; } .ds-choice.on { background: var(--ink, #1c1916); color: var(--field, #f7f7f5); border-color: var(--ink, #1c1916); } .ds-choice:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-choices { display: flex; flex-wrap: wrap; gap: 8px; } .ds-choice { font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-size: 16px; font-weight: 700; padding: 8px 14px; border-radius: 999px; border: 2px solid var(--rim, #111); background: #fff; color: var(--ink, #1c1914); cursor: pointer; } .ds-choice.on { background: var(--rim, #111); color: #fff; } .ds-choice:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; }"
     },
     {
       "name": "Text Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "A full-width field on the near-white fill, with a 1.5px ink stroke and a red caret.",
+      "description": "A full-width field on white, with a 2px black stroke and a magenta caret.",
       "html": "<label class=\"ds-label\">First name<input class=\"ds-field\" type=\"text\" value=\"\"></label>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&display=swap\"); .ds-label { display: block; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 15px; color: var(--ink, #1c1916); margin: 0 0 6px; } .ds-field { display: block; width: 100%; margin-top: 6px; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 16px; font-weight: 400; padding: 12px; border-radius: 6px; border: 1.5px solid var(--ink, #1c1916); background: var(--field, #f7f7f5); color: var(--ink, #1c1916); caret-color: var(--red, #9c1c16); } .ds-field:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-label { display: block; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 16px; color: var(--ink, #1c1914); margin: 0 0 6px; } .ds-field { display: block; width: 100%; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-size: 16px; font-weight: 500; padding: 12px; border-radius: 12px; border: 2px solid var(--rim, #111); background: #fff; color: var(--ink, #1c1914); caret-color: var(--magenta, #c2185b); } .ds-field:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; }"
     },
     {
-      "name": "Shell",
+      "name": "Bar",
       "kind": "nav",
-      "refersTo": "shell",
-      "description": "The full-bleed red bar. The wordmark is condensed cream; the current page is a cream chip with red type.",
+      "refersTo": "nav-link-current",
+      "description": "The white bar. The wordmark is ink slab; the current page is a magenta chip with white type.",
       "html": "<header class=\"ds-bar\"><a class=\"ds-name\" href=\"#\">PuneAfterhours</a><nav class=\"ds-tabs\"><a class=\"ds-tab on\" href=\"#\">Home</a><a class=\"ds-tab\" href=\"#\">Birthday</a><a class=\"ds-tab\" href=\"#\">Wall</a><a class=\"ds-tab\" href=\"#\">Plans</a><a class=\"ds-tab\" href=\"#\">Propose</a></nav></header>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@700&display=swap\"); .ds-bar { background: var(--red, #9c1c16); color: var(--on-red, #fff7f2); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding: 14px 22px; } .ds-name { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-weight: 700; font-size: 32px; line-height: 1; letter-spacing: .01em; color: var(--on-red, #fff7f2); text-decoration: none; } .ds-tabs { display: flex; flex-wrap: wrap; gap: 4px; } .ds-tab { color: var(--on-red, #fff7f2); text-decoration: none; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 16px; padding: 8px 12px; border-radius: 6px; } .ds-tab:hover { background: rgba(255, 247, 242, .16); } .ds-tab.on { background: var(--on-red, #fff7f2); color: var(--red, #9c1c16); } .ds-tab:focus-visible, .ds-name:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-bar { background: var(--bg, #fff); color: var(--ink, #1c1914); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding: 14px 22px 8px; } .ds-name { font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 28px; line-height: 1; letter-spacing: -0.02em; color: var(--ink, #1c1914); text-decoration: none; } .ds-tabs { display: flex; flex-wrap: wrap; gap: 4px; } .ds-tab { color: var(--ink, #1c1914); text-decoration: none; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 16px; padding: 5px 10px; border-radius: 999px; } .ds-tab:hover { background: #f3d0de; color: var(--ink, #1c1914); } .ds-tab.on, .ds-tab.on:hover { background: var(--magenta, #c2185b); color: #fff; } .ds-tab:focus-visible, .ds-name:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; }"
     },
     {
-      "name": "Job Sheet",
+      "name": "Job Pans",
       "kind": "card",
-      "refersTo": "sheet",
-      "description": "A flat working group: red heading, one ink fact, a muted line, an unsettled state, and an ink action.",
-      "html": "<section class=\"ds-sheet\"><h2 class=\"ds-h\">Proposal</h2><p class=\"ds-fact\">Club night in Kothrud</p><p class=\"ds-meta\">Friday · Kothrud · 4 going</p><p class=\"ds-state\">Not locked</p><a class=\"ds-go\" href=\"#\">See plans</a></section>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;700&display=swap\"); .ds-sheet { background: var(--sheet, #e7e8e4); color: var(--ink, #1c1916); border-radius: 8px; padding: 20px 18px 16px; display: flex; flex-direction: column; gap: 8px; max-width: 280px; } .ds-h { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-weight: 700; font-size: 34px; letter-spacing: .02em; color: var(--red, #9c1c16); line-height: 1; margin: 0; } .ds-fact { margin: 0; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--ink, #1c1916); } .ds-meta { margin: 0; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; color: var(--muted, #2c3833); font-size: 15px; line-height: 1.45; } .ds-state { margin: 0; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-size: 15px; font-weight: 700; color: var(--red, #9c1c16); } .ds-state.ok { color: var(--ok, #2f5d50); } .ds-go { margin-top: auto; align-self: flex-start; background: var(--ink, #1c1916); color: var(--field, #f7f7f5); border: 0; border-radius: 6px; padding: 11px 14px; font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 15px; text-decoration: none; } .ds-go:hover { background: var(--red, #9c1c16); } .ds-go:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+      "description": "Four equal pans. Birthday, Wall, Proposal, and What's on, with the rim on the pan you are on.",
+      "html": "<div class=\"ds-jobs\"><section class=\"ds-pan ds-bday\"><h2>Birthday</h2><p class=\"ds-fact\">12 November · A name</p><a class=\"ds-go\" href=\"#\">Add your birthday</a></section><section class=\"ds-pan ds-wall\"><h2>Wall</h2><p class=\"ds-fact\">40 names</p><a class=\"ds-go\" href=\"#\">Open the wall</a></section><section class=\"ds-pan ds-plan\"><h2>Proposal</h2><p class=\"ds-fact\">Club night in Kothrud</p><a class=\"ds-go\" href=\"#\">See plans</a></section><section class=\"ds-pan ds-on\"><h2>What's on</h2><p class=\"ds-fact\">This weekend in Pune</p><a class=\"ds-go\" href=\"#\">Browse what's on</a></section></div>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-jobs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; } .ds-pan { border-radius: 18px; padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 4px; } .ds-pan h2 { margin: 0; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; line-height: 1.05; color: inherit; } .ds-fact { margin: 0; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-size: 18px; font-weight: 500; line-height: 1.3; } .ds-bday { background: var(--magenta, #c2185b); color: #fff; } .ds-wall { background: var(--turmeric, #f0b400); color: var(--ink, #1c1914); } .ds-plan { background: var(--indigo, #3949ab); color: #fff; } .ds-on { background: var(--leaf, #2e7d32); color: #fff; } .ds-jobs > :first-child { outline: 4px solid var(--rim, #111); } .ds-jobs:hover .ds-pan, .ds-jobs:focus-within .ds-pan { outline: none; } .ds-pan:hover, .ds-pan:focus-within { outline: 4px solid var(--rim, #111); } .ds-go { margin-top: auto; align-self: flex-start; background: var(--rim, #111); color: #fff; border: 2px solid var(--rim, #111); border-radius: 999px; padding: 8px 14px; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 16px; text-decoration: none; } .ds-go:hover { background: #fff; color: var(--rim, #111); } .ds-go:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; }"
+    },
+    {
+      "name": "Form Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A white card with the 4px rim always on, for a signup, a proposal, or an RSVP.",
+      "html": "<form class=\"ds-card\"><p class=\"ds-hint\">Day and month is enough.</p><button class=\"ds-send\" type=\"submit\">Send it</button></form>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-card { background: #fff; color: var(--ink, #1c1914); border-radius: 18px; outline: 4px solid var(--rim, #111); padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 8px; max-width: 420px; } .ds-hint { margin: 0; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--ink, #1c1914); } .ds-send { align-self: stretch; text-align: center; margin-top: 18px; background: var(--rim, #111); color: #fff; border: 2px solid var(--rim, #111); border-radius: 999px; padding: 8px 14px; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 16px; cursor: pointer; } .ds-send:hover { background: #fff; color: var(--rim, #111); } .ds-send:focus-visible { outline: 4px solid var(--rim, #111); outline-offset: 2px; }"
     },
     {
       "name": "List Row",
       "kind": "custom",
-      "description": "A birthday line on the ground. The day is condensed red, the name is ink, and pointing at the list drops every other name one step.",
-      "html": "<div class=\"ds-rows\"><a class=\"ds-row\" href=\"#\"><span class=\"ds-day\">12</span><span><span class=\"ds-name\">A name</span><br><span class=\"ds-detail\">Cake spam</span></span></a><a class=\"ds-row\" href=\"#\"><span class=\"ds-day\">18</span><span><span class=\"ds-name\">Another name</span><br><span class=\"ds-detail\">Plan a night out</span></span></a><a class=\"ds-row\" href=\"#\"><span class=\"ds-day\">27</span><span><span class=\"ds-name\">A third name</span><br><span class=\"ds-detail\">Just a shoutout</span></span></a></div>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;700&display=swap\"); .ds-rows { background: var(--bg, #c5c8c4); color: var(--ink, #1c1916); max-width: 420px; } .ds-row { display: flex; gap: 14px; align-items: baseline; padding: 12px 2px; border-bottom: 1px solid var(--line, rgba(28, 25, 22, .22)); text-decoration: none; color: inherit; } .ds-day { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-weight: 700; font-size: 28px; color: var(--red, #9c1c16); min-width: 36px; } .ds-name { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 700; font-size: 17px; color: var(--ink, #1c1916); } .ds-detail { font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; color: var(--muted, #2c3833); font-size: 15px; } .ds-rows:hover .ds-name, .ds-rows:focus-within .ds-name { color: #394640; } .ds-rows:hover .ds-row:hover .ds-name, .ds-rows:focus-within .ds-row:focus-within .ds-name { color: var(--ink, #1c1916); } .ds-row:focus-visible { outline: 3px solid var(--ink, #1c1916); outline-offset: 2px; }"
+      "refersTo": "list-row",
+      "description": "An open row on white. The day is magenta, the name stays ink, and hover or focus draws the rim.",
+      "html": "<div class=\"ds-rows\"><div class=\"ds-row\"><span class=\"ds-day\">12</span><span><span class=\"ds-n\">A name</span><br><span class=\"ds-v\">Cake spam</span></span></div><div class=\"ds-row\"><span class=\"ds-day\">18</span><span><span class=\"ds-n\">Another name</span><br><span class=\"ds-v\">Plan a night out</span></span></div></div>",
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-rows { color: var(--ink, #1c1914); max-width: 420px; } .ds-row { display: flex; gap: 14px; align-items: baseline; padding: 12px; border-radius: 14px; text-decoration: none; color: inherit; font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; } .ds-row:hover, .ds-row:focus-within { outline: 4px solid var(--rim, #111); } .ds-day { font-weight: 700; font-size: 26px; color: var(--magenta, #c2185b); min-width: 36px; } .ds-n { font-weight: 700; font-size: 17px; } .ds-v { font-size: 16px; font-weight: 500; }"
     },
     {
-      "name": "Confirmation",
+      "name": "Accepted Banner",
       "kind": "custom",
       "refersTo": "confirm",
-      "description": "The banner after a form is accepted. Confirm Wash with Locked Green type. Hidden until the submit succeeds.",
+      "description": "The banner after a form is accepted. Turmeric with ink type. Hidden until the submit succeeds.",
       "html": "<div class=\"ds-done\">You're on the roll. The team has your entry privately.</div>",
-      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@600&display=swap\"); .ds-done { margin-top: 14px; padding: 12px 14px; border-radius: 6px; background: #e5f2eb; color: var(--ok, #2f5d50); font-family: \"Source Sans 3\", \"Segoe UI\", sans-serif; font-weight: 600; font-size: 17px; }"
+      "css": "@import url(\"https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap\"); .ds-done { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--turmeric, #f0b400); color: var(--ink, #1c1914); font-family: \"Zilla Slab\", \"Iowan Old Style\", Palatino, serif; font-weight: 700; font-size: 17px; }"
     }
   ],
   "narrative": {
-    "northStar": "The Classified Sheet",
-    "overview": "PuneAfterhours is a working sheet. The ground is newsprint gray, the type is ink, and one red runs the full-bleed shell and every heading. Groups of work sit on a lighter flat sheet. Panels stay flat.\n\nA screen is a column of facts. Home puts four jobs in one row of sheets. Every other collection is a list: a hairline under each row, a condensed red day when the row is a birthday, the name in ink, the detail a step quieter. Hover or focus a list and the row you are on keeps its name at full ink while the other names drop one step. Green marks a plan the host has locked, and the banner after a form is accepted. A plan that is still a proposal, and a source that is down, stay red. A healthy source list is unmarked.\n\nBarlow Condensed carries the wordmark, the headings, and the day numeral. Source Sans 3 carries the sentences, the facts, the labels, and the buttons. Corners stay small. The only full pills are single-select choices. State changes cut from one color to the next.",
+    "northStar": "Four flat color pans",
+    "overview": "PuneAfterhours is four flat color pans for a small crew. The ground is white. Birthday, Wall, Proposal, and What's on are equal jobs, each a solid pan with one fact and one action. The page is not a newspaper and not a poster, and it has no hero.\n\nThe bar is white. The wordmark is Zilla Slab in ink, with five links beside it. The link you are on is a magenta chip. The pan you are on has a 4px black rim, and the others do not. A form card wears that same rim. Nothing flashes and nothing lifts. No rule runs between the pans. Only the gap.\n\nOne face does the whole page. Zilla Slab at 700 carries the wordmark, names, labels, and buttons. The same face at 500 carries facts and sentences. Italics are not used. Body text on white is ink. A heading inside a pan inherits that pan's foreground: white on magenta, indigo, and leaf, and ink on turmeric.",
     "keyCharacteristics": [
-      "Newsprint ground, a lighter sheet, a near-white field",
-      "One red for the shell, the headings, the links, and unsettled states",
-      "Green only for a locked plan or an accepted form",
-      "Barlow Condensed for headings and the day, Source Sans 3 for text",
-      "Flat sheets and hairline rows",
-      "The active list name stays ink; the others step down"
+      "White ground and four equal pans: magenta, turmeric, indigo, and leaf",
+      "One face, Zilla Slab: 700 for names and 500 for facts, no italics",
+      "A 4px black rim on the pan you are on, and the same rim on form cards",
+      "Black pill buttons that invert to white on hover",
+      "The current link is a magenta chip",
+      "List rows have no hairline and take the rim on hover or focus"
     ],
     "rules": [
       {
-        "name": "The One Red Rule",
-        "body": "The shell, the headings, text links, text selection, and every unsettled state share Shell Red. An action wears that red only on hover.",
+        "name": "The Equal Pans Rule",
+        "body": "Birthday magenta, Wall turmeric, Proposal indigo, and What's on leaf are four equal fills. None outranks the others. No rule sits between them. Only the gap.",
         "section": "colors"
       },
       {
-        "name": "The Locked Green Rule",
-        "body": "Locked Green is the locked label. Confirm Wash is the banner after a form is accepted. A source that is up leaves the state line empty. A source that is down, and a plan that is not locked, stay Shell Red.",
+        "name": "The Inherited Heading Rule",
+        "body": "A heading inside a pan inherits that pan's foreground: white on magenta, indigo, and leaf, and ink on turmeric. A heading on white is ink.",
         "section": "colors"
       },
       {
-        "name": "The Two Faces Rule",
-        "body": "Barlow Condensed is the wordmark, the headings, and the day numeral. Source Sans 3 is every sentence, fact, label, button, and tab.",
+        "name": "The Magenta Mark Rule",
+        "body": "On white, magenta is the text link, the current nav chip, the day numeral, text selection, the caret, and the scrollbar thumb. It does not recolor a heading on the white page.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Slab Rule",
+        "body": "Zilla Slab is the only face. 700 is the wordmark, the names, the labels, and the buttons. 500 is the facts and the sentences. The italic is not loaded and not used.",
         "section": "typography"
       },
       {
         "name": "The Working Column Rule",
-        "body": "Content sits in one column, 1120px wide, under a full-bleed bar. The bar wraps so every link stays on screen. Home jobs are four columns, two columns at 980px, and one column at 640px.",
+        "body": "Content sits in one column, 1120px wide, under a white bar that wraps so every link stays on screen. Home pans are four columns, two columns at 980px, and one column at 640px.",
         "section": "layout"
       },
       {
-        "name": "The Flat Sheet Rule",
-        "body": "Panels are flat. Depth is the step from newsprint to sheet to field. Focus is a 3px ink outline, offset 2px.",
+        "name": "The No Hero Rule",
+        "body": "The first viewport is the white bar, one lede, and the four pans. There is no hero.",
+        "section": "layout"
+      },
+      {
+        "name": "The Rim Rule",
+        "body": "The only depth mark is a 4px solid black rim. It sits on the pan you are on, on every form card, and on a list row under hover or focus. Focus on a control is that same rim, offset 2px. There is no shadow.",
         "section": "elevation"
       },
       {
-        "name": "The Small Corner Rule",
-        "body": "A sheet is 8px. A button, tab, field, and the confirmation banner are 6px.",
+        "name": "The Still Rule",
+        "body": "Nothing flashes, lifts, or eases between colors. A hover swaps a fill. The page may scroll smoothly, and reduced motion turns that off.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Pan Corner Rule",
+        "body": "A pan and a form card are 18px. A list row and the accepted banner are 14px. A field is 12px.",
         "section": "shapes"
       },
       {
-        "name": "The Pill Is a Choice Rule",
-        "body": "A fully round pill is a single-select choice. Navigation and actions stay at 6px.",
+        "name": "The Pill Rule",
+        "body": "A button, a choice, and a nav link are pills. The current link is a magenta pill. An action is a black pill.",
         "section": "shapes"
       },
       {
-        "name": "The Rule List Rule",
-        "body": "A list is rows separated by a 1px ink rule at 22% opacity.",
+        "name": "The Open List Rule",
+        "body": "A list row does not close with a hairline. Hover or focus draws the 4px rim.",
         "section": "shapes"
       },
       {
-        "name": "The Focus Holds the Row Rule",
-        "body": "When a list is hovered or contains focus, every row name drops to Neighbor, and the name under the pointer or inside the focused row returns to Ink. The day numeral and the detail stay as they are.",
+        "name": "The Black Pill Rule",
+        "body": "An action is a black pill with white type and a 2px black stroke. Hover inverts it to a white pill with black type. A disabled submit stays the black pill at 45% opacity and does not invert.",
         "section": "components"
       },
       {
-        "name": "The Ink Button Rule",
-        "body": "An action is ink with field-colored text. Hover cuts the fill to Shell Red. A disabled action stays ink at 45% opacity.",
+        "name": "The Current Pan Rule",
+        "body": "At rest, Birthday wears the rim. Pointing at a pan, or focusing inside it, moves the rim to that pan and clears the others. Leaving the row returns the rim to Birthday. A form card keeps the rim whether or not it is hovered.",
         "section": "components"
       }
     ],
     "dos": [
-      "Do set the ground to newsprint and a working group to the sheet color, with fields a step lighter.",
-      "Do use Shell Red for the bar, headings, links, selection, and any unsettled state.",
-      "Do keep an action ink at rest, with field-colored type and 6px corners, and turn the fill red only on hover.",
-      "Do separate list rows with the hairline rule, and drop the other names to Neighbor while the active name stays ink.",
-      "Do use Locked Green and Confirm Wash only for a locked label or the accepted-form banner.",
-      "Do set the wordmark, headings, and day numeral in Barlow Condensed, and sentences, facts, labels, and buttons in Source Sans 3.",
-      "Do mark focus with a 3px ink outline, offset 2px."
+      "Do set the ground and the bar to white, and paint Birthday magenta, Wall turmeric, Proposal indigo, and What's on leaf.",
+      "Do let a heading inside a pan inherit that pan's foreground, and set body text on white in ink.",
+      "Do use Zilla Slab only: 700 for names, the wordmark, labels, and buttons, and 500 for facts and sentences.",
+      "Do mark the pan you are on, every form card, and a hovered or focused list row with a 4px solid rim.",
+      "Do make an action a black pill with white type that inverts on hover.",
+      "Do mark the current nav link as a magenta chip with white type.",
+      "Do leave the pans separated by the gap alone, and leave list rows without a hairline."
     ],
     "donts": [
-      "Don't add a shadow, a blur, a lift, or a second red.",
-      "Don't turn a list into sheets or cards.",
-      "Don't use green for a link, a heading, a button, a not-locked plan, or a source that is down.",
-      "Don't paint a resting button red, or round an action into a pill.",
-      "Don't set a sentence in Barlow Condensed, or a heading in Source Sans 3.",
-      "Don't collapse the shell into a menu. The bar wraps."
+      "Don't add a shadow, a lift, a blur, or a flash.",
+      "Don't put a rule between the pans or a hairline under a list row.",
+      "Don't add a hero, a second typeface, or an italic.",
+      "Don't make the page a newspaper or a poster, and don't bring back a newsprint ground or a red shell.",
+      "Don't give a locked plan, a proposal, or an unavailable source its own status color. The line inherits the surface.",
+      "Don't collapse the bar into a menu. The bar wraps.",
+      "Don't add a photograph or a logo mark."
     ]
   }
 }
