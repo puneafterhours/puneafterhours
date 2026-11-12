@@ -27,8 +27,8 @@ export default async function handler(req, res) {
   if (want) {
     const event = all.find((e) => e.id === want) || null;
     if (!event) return res.status(404).json({ error: 'not found' });
-    const { id, title, when, area, details, name, going, maybe } = event;
-    return res.status(200).json({ event: { id, title, when, area, details, name, going, maybe, status: event.status || 'proposed' } });
+    const { id, title, when, area, details, name, going, maybe, startsAt } = event;
+    return res.status(200).json({ event: { id, title, when, area, details, name, going, maybe, status: event.status || 'proposed', ...(startsAt ? { startsAt } : {}) } });
   }
   return res.status(200).json({ events: all.filter((x) => x.status !== 'cancelled' && x.status !== 'pending').map(({ id, title, when, area, going, maybe, status }) => ({ id, title, when, area, going, maybe, status: status || 'proposed' })) });
 }

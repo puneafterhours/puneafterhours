@@ -1,5 +1,6 @@
 // Stores a birthday signup in Vercel KV. Expects env KV_REST_API_URL and KV_REST_API_TOKEN.
 // Abuse controls: per-IP rate limit, field whitelists, length caps, no user data echoed back.
+import { notify } from './_notify.js';
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const VIBES = ['Cake spam','Plan a night out','Just a shoutout','Skip the fuss'];
 const RATE_LIMIT = 5; // signups per IP per hour
@@ -77,5 +78,8 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
     await kv(KV_REST_API_URL, KV_REST_API_TOKEN, `/set/${encodeURIComponent(id)}/${encodeURIComponent(JSON.stringify(entry))}`);
     await kv(KV_REST_API_URL, KV_REST_API_TOKEN, `/sadd/all:entries/${encodeURIComponent(id)}`);
   } catch { return res.status(502).json({ error: 'storage' }); }
+  // Best-effort admin nudge. No private fields (no WhatsApp/Instagram). Never blocks or
+  // fails the signup: notify() swallows its own errors and no-ops without env config.
+  await notify(`New birthday pending review:\n${entry.name} - ${entry.day} ${entry.month}${entry.celebrate ? ` (${entry.celebrate})` : ''}\nReview at /admin`);
   return res.status(200).json({ ok: true });
 }
