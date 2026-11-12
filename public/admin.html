@@ -41,6 +41,9 @@
 let PASS='';
 function row(it,label){const d=document.createElement('div');d.className='entry col';
  const n=document.createElement('span');n.className='n';n.textContent=label;d.appendChild(n);
+ if(it.status==='pending'){const a=document.createElement('button');a.textContent='Approve';a.className='send';a.style.cssText='padding:8px 14px;margin-top:8px;align-self:flex-start';
+  a.onclick=async()=>{const r=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pass:PASS,action:'approve',id:it.id})});if(r.ok){it.status='approved';a.remove();}else alert('Failed ('+r.status+')');};
+  d.appendChild(a);}
  const b=document.createElement('button');b.textContent='Remove';b.className='send';b.style.cssText='padding:8px 14px;margin-top:8px;align-self:flex-start';
  b.onclick=async()=>{if(!confirm('Remove '+label+'?'))return;const r=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pass:PASS,action:'delete',id:it.id})});if(r.ok){d.remove();}else alert('Failed ('+r.status+')');};
  d.appendChild(b);return d;}
@@ -52,7 +55,7 @@ async function load(){
  const ev=document.getElementById('events'),en=document.getElementById('entries');
  ev.innerHTML=j.events.length?'':'<div class="empty">No proposals.</div>';
  en.innerHTML=j.entries.length?'':'<div class="empty">No birthdays.</div>';
- j.events.forEach(e=>ev.appendChild(row(e,e.title+' - by '+e.name+', '+e.going+' going ('+(e.status||'proposed')+')')));
+ j.events.forEach(e=>ev.appendChild(row(e,e.title+' - by '+e.name+', '+e.going+' going ('+(e.status||'proposed')+')'+(e.phone?' · '+e.phone:''))));
  j.entries.forEach(e=>en.appendChild(row(e,e.name+' - '+e.day+' '+(e.month||'')+(e.insta?' · @'+e.insta:'')+(e.whatsapp?' · '+e.whatsapp:'')+(e.wall?'':' · hidden'))));
 }
 document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();PASS=document.getElementById('pass').value;load();});

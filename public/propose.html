@@ -23,7 +23,7 @@
 </header>
 <main class="wrap">
   <h1>Propose</h1>
-  <p class="sub">Club night, food crawl, gig, house party. Pitch it and see who's interested. It shows up as a proposal, not a confirmed plan.</p>
+  <p class="sub">Club night, food crawl, gig, house party. Pitch it and see who's interested. The team reviews every proposal before it goes public.</p>
   <form class="card" id="f">
     <label for="title">What's the plan?</label>
     <input type="text" id="title" maxlength="80" required placeholder="Late-night momo crawl">
@@ -40,34 +40,38 @@
     <label for="name">Your name</label>
     <input type="text" id="name" maxlength="40" required>
 
+    <label for="phone">Your WhatsApp number</label>
+    <input type="tel" id="phone" maxlength="18" required placeholder="Only the team sees this, never posted">
+
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
 
-    <button class="send" id="send" type="submit" disabled>Post the proposal</button>
-    <div class="done" id="done">It's up. People can RSVP now. It stays a proposal until you lock it from your private manage link below.</div>
+    <button class="send" id="send" type="submit" disabled>Submit for review</button>
+    <div class="done" id="done">Sent. The team reviews every proposal before it shows up publicly. You'll hear from us on your number once it's up.</div>
   </form>
-  <p class="privacy">Proposals are visible to anyone with this link. Keep phone numbers and addresses out; share those in the group.</p>
+  <p class="privacy">Approved proposals are visible to anyone with this link. Your number is only visible to the team, never posted. Keep addresses out; share those in the group.</p>
 </main>
 <script>
-const send=document.getElementById('send'),title=document.getElementById('title'),name=document.getElementById('name');
+const send=document.getElementById('send'),title=document.getElementById('title'),name=document.getElementById('name'),phone=document.getElementById('phone');
 const q=new URLSearchParams(location.search);
 if(q.get('title'))title.value=q.get('title').slice(0,80);
 if(q.get('when'))document.getElementById('when').value=q.get('when').slice(0,60);
 if(q.get('area'))document.getElementById('area').value=q.get('area').slice(0,80);
 if(q.get('link')){const d=document.getElementById('details');d.value=('Idea from: '+q.get('link')+'\n\n').slice(0,500);}
-function check(){send.disabled=!(title.value.trim()&&name.value.trim());}
+const phoneOk=v=>/^[+0-9][0-9\s()-]{7,17}$/.test(v.trim());
+function check(){send.disabled=!(title.value.trim()&&name.value.trim()&&phoneOk(phone.value));}
 check();
-[title,name].forEach(el=>el.addEventListener('input',check));
+[title,name,phone].forEach(el=>el.addEventListener('input',check));
 document.getElementById('f').addEventListener('submit',async e=>{
   e.preventDefault();send.disabled=true;
   try{
-    const r=await fetch('/api/propose',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:title.value.trim(),when:document.getElementById('when').value.trim(),area:document.getElementById('area').value.trim(),details:document.getElementById('details').value.trim(),name:name.value.trim(),website:document.getElementById('website').value})});
+    const r=await fetch('/api/propose',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:title.value.trim(),when:document.getElementById('when').value.trim(),area:document.getElementById('area').value.trim(),details:document.getElementById('details').value.trim(),name:name.value.trim(),phone:phone.value.trim(),website:document.getElementById('website').value})});
     if(!r.ok)throw 0;
     const j=await r.json();
     const d=document.getElementById('done');
     if(j.id&&j.manageKey){try{localStorage.setItem('mk:'+j.id,j.manageKey);}catch{}
       const u='/e?id='+encodeURIComponent(j.id)+'&k='+encodeURIComponent(j.manageKey);
-      d.innerHTML='It\'s up. People can RSVP now. It stays a <b>proposal</b> until you lock it. <a href="'+u+'">Open your plan and manage link</a>. Bookmark that link: it is the only way to lock, cancel or delete this plan.';}
-    d.style.display='block';send.textContent='Posted';
+      d.innerHTML='Sent. The team reviews every proposal before it goes public - nothing shows up until they approve it. Your private <a href="'+u+'">manage link</a> still works: bookmark it to lock, cancel or delete your plan.';}
+    d.style.display='block';send.textContent='Submitted';
   }catch{send.disabled=false;alert('Something glitched. Try again?');}
 });
 </script>

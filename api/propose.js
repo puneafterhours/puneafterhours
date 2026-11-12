@@ -15,10 +15,11 @@ export default async function handler(req, res) {
   const KV_REST_API_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!KV_REST_API_URL || !KV_REST_API_TOKEN) return res.status(503).json({ error: 'storage not configured' });
-  const { title, when, area, details, name, website } = req.body || {};
+  const { title, when, area, details, name, phone, website } = req.body || {};
   if (website) return res.status(200).json({ ok: true });
   if (!title || typeof title !== 'string' || !title.trim() || title.length > 80) return res.status(400).json({ error: 'title' });
   if (!name || typeof name !== 'string' || !name.trim() || name.length > 40) return res.status(400).json({ error: 'name' });
+  if (!phone || typeof phone !== 'string' || !/^[+0-9][0-9\s()-]{7,17}$/.test(phone.trim())) return res.status(400).json({ error: 'phone' });
   if ((when && when.length > 60) || (area && area.length > 80) || (details && details.length > 500)) return res.status(400).json({ error: 'length' });
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   const hour = Math.floor(Date.now() / 3600000);
@@ -32,7 +33,8 @@ export default async function handler(req, res) {
     area: (area || '').trim().slice(0, 80),
     details: (details || '').trim().slice(0, 500),
     name: name.trim().slice(0, 40),
-    status: 'proposed',
+    phone: phone.trim().slice(0, 18),
+    status: 'pending',
     mk: (globalThis.crypto || require('crypto').webcrypto).randomUUID().replace(/-/g, ''),
     going: 0,
     maybe: 0,

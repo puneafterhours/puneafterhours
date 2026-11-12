@@ -167,7 +167,7 @@ h2 { font-size: 34px; }
 .count { font-weight: 700; color: var(--ink); }
 
 label { display: block; font-weight: 700; font-size: 15px; margin: 16px 0 6px; }
-input[type=text], input[type=number], input[type=password], textarea, select {
+input[type=text], input[type=number], input[type=password], input[type=tel], textarea, select {
   width: 100%;
   padding: 12px 12px;
   border-radius: 6px;
