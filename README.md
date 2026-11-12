@@ -51,6 +51,10 @@ poll of `/admin`.
   read your chat id from `https://api.telegram.org/bot<token>/getUpdates`.
 - Behaviour: best effort. Without the env vars it is a silent no-op; a Telegram failure
   never blocks or fails a signup/proposal (`api/_notify.js` swallows its own errors).
+- Verify setup: visit `/api/notify-test`. It reports `configured` (both env vars present)
+  and `sendSucceeded` (a test message reached the chat), with Telegram's error reason on
+  failure. It never returns the token or chat id. If `sendSucceeded` is false, the common
+  causes are a wrong `TELEGRAM_CHAT_ID`, the bot not being in the group, or a revoked token.
 - Privacy: the message carries no private fields - no WhatsApp number, no hidden
   Instagram. It is a "go review this" nudge with the name and day/month (or proposal
   title and proposer), nothing more.

@@ -14,9 +14,21 @@
 //   It is a "go review this" nudge, not a data dump.
 
 export async function notify(text) {
+  return (await notifyDetailed(text)).ok;
+}
+
+// Same send, but returns a diagnostic object instead of a bare boolean:
+//   { configured, ok, status, error }
+// Used by /api/notify-test so a failure can be understood (missing config vs. a real
+// Telegram error like "chat not found" or "bot was blocked"). Never throws; never
+// returns the token or chat id.
+export async function notifyDetailed(text) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId || !text) return false; // not configured: silent no-op
+  const configured = Boolean(token && chatId);
+  if (!configured || !text) {
+    return { configured, ok: false, status: 0, error: configured ? 'no message' : 'missing TELEGRAM_BOT_TOKEN and/or TELEGRAM_CHAT_ID' };
+  }
   try {
     const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
@@ -28,8 +40,12 @@ export async function notify(text) {
       }),
       signal: AbortSignal.timeout(4000),
     });
-    return r.ok;
-  } catch {
-    return false; // swallow everything: never let a notification break the request
+    if (r.ok) return { configured, ok: true, status: r.status, error: null };
+    // Telegram returns a JSON body with a human-readable description on failure.
+    let desc = `telegram http ${r.status}`;
+    try { const j = await r.json(); if (j && j.description) desc = j.description; } catch { /* keep default */ }
+    return { configured, ok: false, status: r.status, error: desc };
+  } catch (e) {
+    return { configured, ok: false, status: 0, error: e && e.name === 'TimeoutError' ? 'timeout reaching Telegram' : 'network error reaching Telegram' };
   }
 }
