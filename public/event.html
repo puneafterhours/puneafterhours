@@ -7,22 +7,23 @@
 <meta name="description" content="A meetup proposal. Say you're in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=12">
 </head>
 <body>
 <header class="bar">
-  <a class="name" href="/">PuneAfterhours</a>
+  <a class="name" href="/"><span class="msym" aria-hidden="true">local_bar</span>PuneAfterhours</a>
   <nav class="tabs">
-    <a href="/">Home</a>
-    <a href="/roll">Birthday</a>
-    <a href="/wall">Wall</a>
-    <a href="/events">Plans</a>
-    <a href="/propose">Propose</a>
+    <a href="/"><span class="msym" aria-hidden="true">home</span>Home</a>
+    <a href="/roll"><span class="msym" aria-hidden="true">cake</span>Birthday</a>
+    <a href="/wall"><span class="msym" aria-hidden="true">celebration</span>Wall</a>
+    <a href="/events"><span class="msym" aria-hidden="true">event</span>Plans</a>
+    <a href="/propose"><span class="msym" aria-hidden="true">add_circle</span>Propose</a>
   </nav>
 </header>
 <main class="wrap">
-  <div id="ev"><div class="empty">Loading…</div></div>
+  <div id="ev"><div class="empty loading"><span class="msym" aria-hidden="true">progress_activity</span>Loading…</div></div>
 </main>
 <script>
 const id=new URLSearchParams(location.search).get('id');
@@ -36,7 +37,7 @@ function paint(st){
 }
 fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e})=>{
   const box=document.getElementById('ev');
-  if(!e){box.innerHTML='<div class="empty">Plan not found.</div>';return;}
+  if(!e){box.innerHTML='<div class="empty"><span class="msym" aria-hidden="true">search_off</span>Plan not found.</div>';return;}
   box.innerHTML=`
     <p class="state" id="st"></p>
     <h1>${esc(e.title)}</h1>
@@ -53,16 +54,16 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <label>Are you in?</label>
         <div class="choices" id="rsvp">
-          <button type="button" data-v="going">I'm in</button>
-          <button type="button" data-v="maybe">Maybe</button>
+          <button type="button" data-v="going"><span class="msym" aria-hidden="true">check_circle</span>I'm in</button>
+          <button type="button" data-v="maybe"><span class="msym" aria-hidden="true">help</span>Maybe</button>
         </div>
-        <button class="send" id="send" type="submit" disabled>RSVP</button>
-        <button class="send quiet" id="rm" type="button" style="display:none">Remove my RSVP</button>
+        <button class="send" id="send" type="submit" disabled><span class="msym" aria-hidden="true">how_to_reg</span>RSVP</button>
+        <button class="send quiet" id="rm" type="button" style="display:none"><span class="msym" aria-hidden="true">person_remove</span>Remove my RSVP</button>
         <div class="done" id="done">You're on the list. The host confirms it by locking the plan.</div>
       </form>
     </div>
     <div class="card" id="mg" style="display:none"><b>Host controls</b><div class="choices" id="mact"><button type="button" data-a="lock">Lock it in</button><button type="button" data-a="unlock">Back to proposal</button><button type="button" data-a="cancel">Cancel plan</button><button type="button" data-a="delete">Delete</button></div><div class="hint" id="mmsg"></div></div>
-    <a class="wall-link" href="/events">All plans</a>`;
+    <a class="wall-link" href="/events"><span class="msym" aria-hidden="true">event</span>All plans</a>`;
   paint(e.status);
   const key=new URLSearchParams(location.search).get('k')||(()=>{try{return localStorage.getItem('mk:'+id)}catch{return null}})();
   if(key){document.getElementById('mg').style.display='block';
@@ -96,7 +97,7 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
     if(!r.ok){const err=await r.json().catch(()=>({}));alert(err.message||'Could not remove.');return;}
     {const j=await r.json();document.getElementById('count').textContent=j.going+' going · '+j.maybe+' maybe';document.getElementById('done').style.display='none';document.getElementById('rm').style.display='none';send.textContent='RSVP';}
   });
-}).catch(()=>{document.getElementById('ev').innerHTML='<div class="empty">Could not load. Try refreshing.</div>';});
+}).catch(()=>{document.getElementById('ev').innerHTML='<div class="empty"><span class="msym" aria-hidden="true">error</span>Could not load. Try refreshing.</div>';});
 </script>
 </body>
 </html>

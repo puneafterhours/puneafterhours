@@ -7,22 +7,23 @@
 <meta name="description" content="Pitch a meetup idea to the AfterHours gang and r/PuneTonight.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=12">
 </head>
 <body>
 <header class="bar">
-  <a class="name" href="/">PuneAfterhours</a>
+  <a class="name" href="/"><span class="msym" aria-hidden="true">local_bar</span>PuneAfterhours</a>
   <nav class="tabs">
-    <a href="/">Home</a>
-    <a href="/roll">Birthday</a>
-    <a href="/wall">Wall</a>
-    <a href="/events">Plans</a>
-    <a href="/propose" class="on">Propose</a>
+    <a href="/"><span class="msym" aria-hidden="true">home</span>Home</a>
+    <a href="/roll"><span class="msym" aria-hidden="true">cake</span>Birthday</a>
+    <a href="/wall"><span class="msym" aria-hidden="true">celebration</span>Wall</a>
+    <a href="/events"><span class="msym" aria-hidden="true">event</span>Plans</a>
+    <a href="/propose" class="on"><span class="msym" aria-hidden="true">add_circle</span>Propose</a>
   </nav>
 </header>
 <main class="wrap">
-  <h1>Propose</h1>
+  <h1><span class="msym" aria-hidden="true">add_circle</span>Propose</h1>
   <p class="sub">Club night, food crawl, gig, house party. Pitch it and see who's interested. The team reviews every proposal before it goes public.</p>
   <form class="card" id="f">
     <label for="title">What's the plan?</label>
@@ -45,7 +46,7 @@
 
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
 
-    <button class="send" id="send" type="submit" disabled>Submit for review</button>
+    <button class="send" id="send" type="submit" disabled><span class="msym" aria-hidden="true">send</span>Submit for review</button>
     <div class="done" id="done">Sent. The team reviews every proposal before it shows up publicly. You'll hear from us on your number once it's up.</div>
   </form>
   <p class="privacy">Approved proposals are visible to anyone with this link. Your number is only visible to the team, never posted. Keep addresses out; share those in the group.</p>

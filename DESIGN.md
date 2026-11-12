@@ -1,6 +1,10 @@
 ---
 name: PuneAfterhours
 description: Four flat color pans on white, in one slab, for a small crew.
+fonts:
+  slab: "Zilla Slab, Iowan Old Style, Palatino, serif"
+  ui: "Roboto, system-ui, sans-serif"
+  icons: "Material Symbols Rounded"
 colors:
   magenta: "#c2185b"
   turmeric: "#f0b400"
@@ -301,6 +305,39 @@ A collection is a stack of open rows on the white ground.
 
 The accepted-form banner uses Wall Turmeric, ink type, weight 700, 14px corners, and padding 12px 14px, with 14px above it. It stays hidden until the submit succeeds. A link inside the banner stays Birthday Magenta.
 
+## Material Layer
+
+Google Material is used as a thin, additive layer, not a replacement for the four-flat-pans system. It brings two things and nothing else: an icon set and an optional UI font token. The pans, the one slab for reading type, the pill buttons, the magenta marks, and the 4px rim all stay exactly as described above.
+
+### Icons (Material Symbols Rounded)
+
+Icons are the main Material contribution. They are set in Material Symbols Rounded, loaded from Google Fonts, filled 0, weight 500, optical size 24, so their stroke weight reads next to Zilla Slab 700 labels. An icon rides inline, left of the label it belongs to, and inherits the surface foreground: white on the magenta, indigo, and leaf pans, ink on turmeric and on the white page. Every icon is decorative and carries `aria-hidden="true"`, because the label beside it already names the thing.
+
+Where icons sit:
+
+- **Wordmark:** `local_bar` leads "PuneAfterhours" in the bar.
+- **Nav links:** each tab leads with its job icon. Home `home`, Birthday `cake`, Wall `celebration`, Plans `event`, Propose `add_circle`. The current link stays the magenta chip; the icon inherits the chip foreground.
+- **Page titles (h1):** the title icon matches the job. Birthday `cake`, Wall `celebration`, Plans `event`, Propose `add_circle`, Host moderation `shield_person`.
+- **Home pans (h2):** Birthday `cake`, Wall `celebration`, Proposal `lightbulb`, What's on `nightlife`.
+- **Section headings (h2):** This weekend `weekend`, What's on `nightlife`, Mumbai `directions_car`, Big nights `star`.
+- **Actions:** a pan action and a form submit may lead with an icon (`add`, `send`, `group`, `travel_explore`, `lock_open`). The button stays the black pill that inverts on hover; the icon inherits the button foreground, so it flips with the label.
+
+**The Inherited Icon Rule.** A Material Symbol inherits the foreground of the surface it sits on and never introduces its own color, except in a loading or empty state (see State icons). It never carries a shadow or a ripple. It rides inline with its label and is always `aria-hidden`. The one permitted motion is the current-chip fill (see State icons).
+
+### State icons
+
+Loading, empty, error, and not-found placeholders lead with a Material Symbol in Birthday Magenta, sized to the 16px placeholder text. This is the one place an icon carries its own color, because the placeholder is a status line, not surface content. The mapping: loading `progress_activity`, empty `inbox`, error `error`, not found `search_off`.
+
+The loading spinner and the current-chip fill are the only motion on the page. The loading icon turns slowly; the current nav chip's icon eases from outline to filled over 160ms as a quiet state mark. Both are the single, deliberate nudge against the Still Rule and both stop under `prefers-reduced-motion`: the spinner freezes and the chip icon simply rests filled with no transition, so the state still reads without animation.
+
+**The Quiet Motion Rule.** The page has exactly two moving parts: the loading spinner and the current-chip fill. Nothing else flashes, lifts, or eases. Reduced motion removes both, and each resting state still reads on its own.
+
+### UI font token (Roboto)
+
+Roboto is loaded and exposed as the `--ui` token (`Roboto, system-ui, sans-serif`) for incidental UI chrome only. It is not applied to the wordmark, the page titles, the pan names, the facts, or the sentences. Those stay Zilla Slab. The One Slab Rule still governs everything a reader reads; Roboto exists only as an escape hatch for small system-style controls, and the italic is still neither loaded nor used.
+
+**The Additive Material Rule.** Material adds icons and a UI token. It does not add elevation, ripples, Material component shapes, or a second reading face. If a Material feature would contradict the Still Rule, the One Slab Rule, the Rim Rule, or the Equal Pans Rule, the house rule wins.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -322,3 +359,6 @@ The accepted-form banner uses Wall Turmeric, ink type, weight 700, 14px corners,
 - **Don't** give a locked plan, a proposal, or an unavailable source its own status color. The line inherits the surface.
 - **Don't** collapse the bar into a menu. The bar wraps.
 - **Don't** add a photograph or a logo mark.
+- **Don't** let a Material icon carry its own color, a shadow, a fill transition, or a ripple; it inherits the surface foreground and rides inline with its label.
+- **Don't** use Roboto for the wordmark, titles, pan names, facts, or sentences; Zilla Slab reads everything a reader reads.
+- **Don't** pull in Material component shapes or elevation; Material is only the icon set and the `--ui` token.
