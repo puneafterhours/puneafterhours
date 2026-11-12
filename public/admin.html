@@ -7,14 +7,22 @@
 <title>Admin - PuneAfterhours</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=7">
 </head>
 <body>
-<div class="wrap">
-  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
-  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll">🎂 Birthday</a><a href="/wall">🌙 Wall</a><a href="/events">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
-  <h1>🛡 Host moderation</h1>
+<header class="bar">
+  <a class="name" href="/">PuneAfterhours</a>
+  <nav class="tabs">
+    <a href="/">Home</a>
+    <a href="/roll">Birthday</a>
+    <a href="/wall">Wall</a>
+    <a href="/events">Plans</a>
+    <a href="/propose">Propose</a>
+  </nav>
+</header>
+<main class="wrap">
+  <h1>Host moderation</h1>
   <p class="sub">Team only. Remove anything that shouldn't be up.</p>
   <form class="card" id="f">
     <label for="pass">Passphrase</label>
@@ -23,17 +31,17 @@
     <div class="hint" id="msg"></div>
   </form>
   <div id="box" style="display:none">
-    <h1 style="margin-top:24px">Meetup proposals</h1>
-    <div id="events"></div>
-    <h1 style="margin-top:24px">Birthday entries</h1>
-    <div id="entries"></div>
+    <h2>Meetup proposals</h2>
+    <div id="events" class="rows"></div>
+    <h2>Birthday entries</h2>
+    <div id="entries" class="rows"></div>
   </div>
-</div>
+</main>
 <script>
 let PASS='';
-function row(it,label,del){const d=document.createElement('div');d.className='entry';d.style.cssText='flex-direction:column;align-items:flex-start';
+function row(it,label){const d=document.createElement('div');d.className='entry col';
  const n=document.createElement('span');n.className='n';n.textContent=label;d.appendChild(n);
- const b=document.createElement('button');b.textContent='Remove';b.className='send';b.style.cssText='padding:6px 14px;margin-top:6px';
+ const b=document.createElement('button');b.textContent='Remove';b.className='send';b.style.cssText='padding:8px 14px;margin-top:8px;align-self:flex-start';
  b.onclick=async()=>{if(!confirm('Remove '+label+'?'))return;const r=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pass:PASS,action:'delete',id:it.id})});if(r.ok){d.remove();}else alert('Failed ('+r.status+')');};
  d.appendChild(b);return d;}
 async function load(){

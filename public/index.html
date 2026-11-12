@@ -7,22 +7,95 @@
 <meta name="description" content="The little home for PuneAfterhours and r/PuneTonight. Birthdays, meetup plans, RSVPs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=7">
 </head>
 <body>
-<div class="wrap">
-  <div class="moon">🌙</div>
-  <h1>PuneAfterhours</h1>
-  <p class="sub">The little corner for the AfterHours gang and r/PuneTonight. Birthdays, meetup plans, who's in. Run by PuneAfters Team.</p>
-  <nav class="tabs"><a href="/" class="on">🏠 Home</a><a href="/roll">🎂 Birthday</a><a href="/wall">🌙 Wall</a><a href="/events">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
-  <div class="tiles">
-    <a class="tile" href="/events"><b>Meetup plans</b><p>Proposals from the crew. Open one, say you're in. Nothing is official until the host locks it.</p></a>
-    <a class="tile" href="/wall"><b>Birthday wall</b><p>Who to celebrate and when. Day and month, year only if they choose.</p></a>
-    <a class="tile" href="/roll"><b>Add your birthday</b><p>Takes a minute. Year optional, shown only if you choose.</p></a>
-    <a class="tile" href="/propose"><b>Propose a plan</b><p>Club night, food crawl, gig, house party. Pitch it, see who's interested.</p></a>
+<header class="bar">
+  <a class="name" href="/">PuneAfterhours</a>
+  <nav class="tabs">
+    <a href="/" class="on">Home</a>
+    <a href="/roll">Birthday</a>
+    <a href="/wall">Wall</a>
+    <a href="/events">Plans</a>
+    <a href="/propose">Propose</a>
+  </nav>
+</header>
+<main class="wrap">
+  <p class="lede">The little corner for the AfterHours gang and r/PuneTonight. Birthdays, meetup plans, who's in. Run by PuneAfters Team.</p>
+  <div class="jobs">
+    <section>
+      <h2>Birthday</h2>
+      <p class="fact" id="bday">Loading…</p>
+      <p class="meta" id="bday-meta">Day and month. Year only if they choose.</p>
+      <a class="go" href="/roll">Add your birthday</a>
+    </section>
+    <section>
+      <h2>Wall</h2>
+      <p class="fact" id="wall-fact">Loading…</p>
+      <p class="meta" id="wall-meta">Names that chose to be on it.</p>
+      <a class="go" href="/wall">Open the wall</a>
+    </section>
+    <section>
+      <h2>Proposal</h2>
+      <p class="fact" id="plan-fact">Loading…</p>
+      <p class="meta" id="plan-meta"></p>
+      <p class="state" id="plan-state"></p>
+      <a class="go" href="/events">See plans</a>
+    </section>
+    <section>
+      <h2>What's on</h2>
+      <p class="fact">This weekend in Pune</p>
+      <p class="meta" id="on-meta">Every card links out.</p>
+      <p class="state" id="on-state"></p>
+      <a class="go" href="/events">Browse what's on</a>
+    </section>
   </div>
   <p class="privacy">The wall and plans are visible to anyone with this link, shared with the AfterHours group and r/PuneTonight. Nobody is tagged, added to groups, or posted about automatically.</p>
-</div>
+</main>
+<script>
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+fetch('/api/birthdays').then(r=>r.json()).then(({entries})=>{
+  const fact=document.getElementById('bday'), meta=document.getElementById('bday-meta');
+  const wall=document.getElementById('wall-fact'), wallMeta=document.getElementById('wall-meta');
+  if(!entries||!entries.length){
+    fact.textContent='Nobody on the wall yet';
+    wall.textContent='No names yet';
+    wallMeta.textContent='The wall shows a name only if they chose it.';
+    return;
+  }
+  const now=new Date(Date.now()+5.5*3600e3);
+  const md=now.getUTCMonth(), dd=now.getUTCDate();
+  const next=entries.map(e=>{
+    const mi=months.indexOf(e.month);
+    let dist=(mi*31+e.day)-(md*31+dd);
+    if(dist<0) dist+=12*31;
+    return {e,dist};
+  }).sort((a,b)=>a.dist-b.dist)[0].e;
+  fact.textContent=next.day+' '+next.month+' · '+next.name+(next.year?' · '+next.year:'');
+  meta.textContent=next.celebrate||'On the wall';
+  wall.textContent=entries.length+(entries.length===1?' name':' names');
+  wallMeta.textContent='Day and month. Year only if they chose to show it.';
+}).catch(()=>{
+  document.getElementById('bday').textContent='Could not load birthdays';
+  document.getElementById('wall-fact').textContent='Could not load the wall';
+});
+fetch('/api/events').then(r=>r.json()).then(({events})=>{
+  const fact=document.getElementById('plan-fact'), meta=document.getElementById('plan-meta'), state=document.getElementById('plan-state');
+  if(!events||!events.length){fact.textContent='No proposals yet'; meta.textContent='A proposal is not a plan until the host locks it.'; return;}
+  const e=events[0];
+  fact.textContent=e.title;
+  meta.textContent=[e.when,e.area,(e.going||0)+' going'].filter(Boolean).join(' · ');
+  const locked=e.status==='locked';
+  state.textContent=locked?'Locked in':'Not locked';
+  state.className=locked?'state ok':'state';
+}).catch(()=>{document.getElementById('plan-fact').textContent='Could not load plans';});
+fetch('/api/discover').then(r=>r.json()).then(d=>{
+  const down=Object.entries(d.status||{}).filter(([,v])=>v==='unavailable').map(([k])=>k);
+  const state=document.getElementById('on-state');
+  if(down.length) state.textContent=down.join(', ')+' unavailable';
+  else state.textContent='';
+}).catch(()=>{document.getElementById('on-state').textContent='Sources unavailable';});
+</script>
 </body>
 </html>

@@ -7,47 +7,63 @@
 <meta name="description" content="A meetup proposal. Say you're in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=7">
 </head>
 <body>
-<div class="wrap">
-  <div class="brand"><span class="moon-sm">🌙</span> PuneAfterhours</div>
-  <nav class="tabs"><a href="/">🏠 Home</a><a href="/roll">🎂 Birthday</a><a href="/wall">🌙 Wall</a><a href="/events">📅 Plans</a><a href="/propose">📣 Propose</a></nav>
+<header class="bar">
+  <a class="name" href="/">PuneAfterhours</a>
+  <nav class="tabs">
+    <a href="/">Home</a>
+    <a href="/roll">Birthday</a>
+    <a href="/wall">Wall</a>
+    <a href="/events">Plans</a>
+    <a href="/propose">Propose</a>
+  </nav>
+</header>
+<main class="wrap">
   <div id="ev"><div class="empty">Loading…</div></div>
-</div>
+</main>
 <script>
 const id=new URLSearchParams(location.search).get('id');
-function esc(s){const d=document.createElement('span');d.textContent=s;return d.innerHTML;}
+function esc(s){const d=document.createElement('span');d.textContent=s==null?'':String(s);return d.innerHTML;}
+function paint(st){
+  const el=document.getElementById('st');
+  if(!el) return;
+  const locked=st==='locked';
+  el.textContent=locked?'locked in - confirmed by the host':'proposal - not confirmed yet';
+  el.className=locked?'state ok':'state';
+}
 fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e})=>{
   const box=document.getElementById('ev');
   if(!e){box.innerHTML='<div class="empty">Plan not found.</div>';return;}
   box.innerHTML=`
-    <span class="tag" id="st">${e.status==='locked'?'locked in - confirmed by the host':'proposal - not confirmed yet'}</span>
+    <p class="state" id="st"></p>
     <h1>${esc(e.title)}</h1>
     <p class="sub">${esc([e.when,e.area].filter(Boolean).join(' · '))}</p>
     <div class="card">
-      <p style="margin-top:0;white-space:pre-wrap">${esc(e.details||'')}</p>
+      <p class="meta" style="white-space:pre-wrap">${esc(e.details||'')}</p>
       <p class="hint" id="who"></p>
       <p class="hint">Proposed by ${esc(e.name)}</p>
-      <div class="count" id="count">${e.going} going · ${e.maybe} maybe</div>
-      <p class="hint">One RSVP per name - use the same name to change or remove yours. We can't verify identity.</p>
+      <div class="count" id="count">${esc(e.going)} going · ${esc(e.maybe)} maybe</div>
+      <p class="hint">One RSVP per name. Use the same name to change or remove yours. We can't verify identity.</p>
       <form id="f">
         <label for="name">Your name</label>
         <input type="text" id="name" maxlength="40" required>
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <label>Are you in?</label>
         <div class="choices" id="rsvp">
-          <button type="button" data-v="going">🙌 I'm in</button>
-          <button type="button" data-v="maybe">🤔 Maybe</button>
+          <button type="button" data-v="going">I'm in</button>
+          <button type="button" data-v="maybe">Maybe</button>
         </div>
         <button class="send" id="send" type="submit" disabled>RSVP</button>
-        <button class="send" id="rm" type="button" style="background:transparent;border:1px solid #4a2c32;color:var(--dim);display:none;margin-top:8px">Remove my RSVP</button>
+        <button class="send quiet" id="rm" type="button" style="display:none">Remove my RSVP</button>
         <div class="done" id="done">You're on the list. The host confirms it by locking the plan.</div>
       </form>
     </div>
-    <div class="card" id="mg" style="display:none"><b>Host controls</b><div class="choices" id="mact" style="margin-top:10px"><button type="button" data-a="lock">🔒 Lock it in</button><button type="button" data-a="unlock">↩ Back to proposal</button><button type="button" data-a="cancel">✖ Cancel plan</button><button type="button" data-a="delete">🗑 Delete</button></div><div class="hint" id="mmsg"></div></div>
-    <a class="wall-link" href="/events">← All plans</a>`;
+    <div class="card" id="mg" style="display:none"><b>Host controls</b><div class="choices" id="mact"><button type="button" data-a="lock">Lock it in</button><button type="button" data-a="unlock">Back to proposal</button><button type="button" data-a="cancel">Cancel plan</button><button type="button" data-a="delete">Delete</button></div><div class="hint" id="mmsg"></div></div>
+    <a class="wall-link" href="/events">All plans</a>`;
+  paint(e.status);
   const key=new URLSearchParams(location.search).get('k')||(()=>{try{return localStorage.getItem('mk:'+id)}catch{return null}})();
   if(key){document.getElementById('mg').style.display='block';
     document.getElementById('mact').addEventListener('click',async ev=>{const b=ev.target.closest('button');if(!b)return;const a=b.dataset.a;if((a==='delete'||a==='cancel')&&!confirm(a+' this plan?'))return;
@@ -56,7 +72,7 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
       if(!r.ok){m.textContent='That did not work (wrong or expired key).';return;}
       const j=await r.json();m.textContent='Done: '+j.status+'.';
       if(j.status==='deleted'||j.status==='cancelled'){setTimeout(()=>location.href='/events',900);return;}
-      document.getElementById('st').textContent=j.status==='locked'?'locked in - confirmed by the host':'proposal - not confirmed yet';});}
+      paint(j.status);});}
   let status='';
   const send=document.getElementById('send'),name=document.getElementById('name');
   document.getElementById('rsvp').addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;document.querySelectorAll('#rsvp button').forEach(x=>x.classList.toggle('on',x===b));status=b.dataset.v;send.disabled=!(name.value.trim()&&status);});
@@ -65,7 +81,7 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
     ev.preventDefault();send.disabled=true;
     try{
       const r=await fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,name:name.value.trim(),status,website:document.getElementById('website').value,rt:rtoken()})});
-      if(!r.ok){const e=await r.json().catch(()=>({}));alert(e.message||'Something glitched. Try again?');send.disabled=false;return;}
+      if(!r.ok){const err=await r.json().catch(()=>({}));alert(err.message||'Something glitched. Try again?');send.disabled=false;return;}
       const j=await r.json();
       document.getElementById('count').textContent=j.going+' going · '+j.maybe+' maybe';
       if(j.rt){try{localStorage.setItem('rt:'+id+':'+name.value.trim().toLowerCase(),j.rt);}catch{}}
@@ -77,7 +93,7 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
   document.getElementById('rm').addEventListener('click',async()=>{
     if(!name.value.trim()){alert('Enter the name you RSVPed with first.');return;}
     const r=await fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,name:name.value.trim(),cancel:true,rt:rtoken()})});
-    if(!r.ok){const e=await r.json().catch(()=>({}));alert(e.message||'Could not remove.');return;}
+    if(!r.ok){const err=await r.json().catch(()=>({}));alert(err.message||'Could not remove.');return;}
     {const j=await r.json();document.getElementById('count').textContent=j.going+' going · '+j.maybe+' maybe';document.getElementById('done').style.display='none';document.getElementById('rm').style.display='none';send.textContent='RSVP';}
   });
 }).catch(()=>{document.getElementById('ev').innerHTML='<div class="empty">Could not load. Try refreshing.</div>';});
