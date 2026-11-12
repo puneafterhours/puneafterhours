@@ -8,6 +8,7 @@
     { "source": "/events", "destination": "/events.html" },
     { "source": "/e", "destination": "/event.html" },
     { "source": "/propose", "destination": "/propose.html" },
-    { "source": "/admin", "destination": "/admin.html" }
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/gossip", "destination": "/gossip.html" }
   ]
 }
