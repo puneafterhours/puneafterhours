@@ -23,7 +23,7 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
   const entries = (values || [])
     .map((v) => { try { return typeof v === 'string' ? JSON.parse(v) : v; } catch { return null; } })
     .filter((e) => e && e.wall && e.status !== 'pending')
-    .map(({ name, day, month, insta, celebrate, year, showyear }) => ({ name, day, month, insta, celebrate, ...(showyear === 'show' && year ? { year } : {}) }));
+    .map((e) => ({ name: e.name, day: e.day, month: e.month, celebrate: e.celebrate, ...((e.showig === 'show' || (e.showig === undefined && e.insta)) && e.insta ? { insta: e.insta } : {}), ...(e.showyear === 'show' && e.year ? { year: e.year } : {}) }));
   res.setHeader('Cache-Control', 'no-store');
   return res.status(200).json({ entries });
 }

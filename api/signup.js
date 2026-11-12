@@ -65,7 +65,8 @@ const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_R
     showyear: showyear === 'show' && y ? 'show' : 'hide',
     whatsapp: wa, // always private to the team, never on the wall
     showwa: 'hide',
-    insta: ig === 'show' ? '@' + igHandle : igHandle, // stored either way; ig controls wall display
+    insta: '@' + igHandle, // stored for the team either way; showig controls wall display
+    showig: ig === 'show' ? 'show' : 'hide',
     celebrate: VIBES.includes(celebrate) ? celebrate : '',
     wall: wall === 'wall',
     status: 'pending', // team verifies before the wall shows it
