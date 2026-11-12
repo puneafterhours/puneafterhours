@@ -7,22 +7,23 @@
 <meta name="description" content="Drop your birthday so the group can actually plan the night. Day and month, year optional.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=12">
 </head>
 <body>
 <header class="bar">
-  <a class="name" href="/">PuneAfterhours</a>
+  <a class="name" href="/"><span class="msym" aria-hidden="true">local_bar</span>PuneAfterhours</a>
   <nav class="tabs">
-    <a href="/">Home</a>
-    <a href="/roll" class="on">Birthday</a>
-    <a href="/wall">Wall</a>
-    <a href="/events">Plans</a>
-    <a href="/propose">Propose</a>
+    <a href="/"><span class="msym" aria-hidden="true">home</span>Home</a>
+    <a href="/roll" class="on"><span class="msym" aria-hidden="true">cake</span>Birthday</a>
+    <a href="/wall"><span class="msym" aria-hidden="true">celebration</span>Wall</a>
+    <a href="/events"><span class="msym" aria-hidden="true">event</span>Plans</a>
+    <a href="/propose"><span class="msym" aria-hidden="true">add_circle</span>Propose</a>
   </nav>
 </header>
 <main class="wrap">
-  <h1>Birthday</h1>
+  <h1><span class="msym" aria-hidden="true">cake</span>Birthday</h1>
   <p class="sub">Drop your birthday so the AfterHours gang and r/PuneTonight can actually plan the night, not scramble on the day. Takes about a minute. Day and month is enough. Adding the year is optional. It shows on the wall only if you choose to show it.</p>
   <form class="card" id="f">
     <label for="name">Your proper name (first and last)</label>
@@ -65,20 +66,20 @@
 
     <label>How should the group celebrate you?</label>
     <div class="choices" id="celebrate">
-      <button type="button" data-v="Cake spam">Cake spam</button>
-      <button type="button" data-v="Plan a night out">Plan a night out</button>
-      <button type="button" data-v="Just a shoutout">Just a shoutout</button>
-      <button type="button" data-v="Skip the fuss">Skip the fuss</button>
+      <button type="button" data-v="Cake spam"><span class="msym" aria-hidden="true">cake</span>Cake spam</button>
+      <button type="button" data-v="Plan a night out"><span class="msym" aria-hidden="true">nightlife</span>Plan a night out</button>
+      <button type="button" data-v="Just a shoutout"><span class="msym" aria-hidden="true">campaign</span>Just a shoutout</button>
+      <button type="button" data-v="Skip the fuss"><span class="msym" aria-hidden="true">do_not_disturb_on</span>Skip the fuss</button>
     </div>
 
     <label>Show you on the birthday wall? (default is yes. Switch to off before submitting if you don't want it)</label>
     <div class="choices" id="wall">
-      <button type="button" data-v="wall" class="on">Yes, put me on it</button>
-      <button type="button" data-v="private">Keep me off the wall</button>
+      <button type="button" data-v="wall" class="on"><span class="msym" aria-hidden="true">check_circle</span>Yes, put me on it</button>
+      <button type="button" data-v="private"><span class="msym" aria-hidden="true">visibility_off</span>Keep me off the wall</button>
     </div>
     <div class="hint">The wall shows your name, day and month, and your celebration pick. Your Instagram only appears if you said yes above; your number never appears. The team verifies every entry before it shows. Ask the PuneAfters Team anytime to take your entry down.</div>
 
-    <button class="send" id="send" type="submit" disabled>Send it</button>
+    <button class="send" id="send" type="submit" disabled><span class="msym" aria-hidden="true">send</span>Send it</button>
     <div class="done" id="done">Got it. The team verifies every entry before it shows on the wall - you'll hear from us on Instagram or WhatsApp once it's up.</div>
   </form>
   <p class="privacy">Only the team sees the full list, including entries that stay off the wall. Nobody is added to any group, tagged, or posted about automatically.</p>
