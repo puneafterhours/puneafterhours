@@ -7,7 +7,7 @@
 // The one value that used to force a 7-file edit on every style change - the CSS
 // cache-busting version - now lives here, in CSS_VERSION.
 
-export const CSS_VERSION = 14;
+export const CSS_VERSION = 15;
 
 // ---- DOM helpers (shared so events/wall/event stop each defining their own) ----
 
@@ -56,7 +56,7 @@ function syncStylesheet() {
 }
 
 // Map of active key -> the tab's href, so we can find the right <a> in the static nav.
-const HREF_BY_KEY = { home: '/', roll: '/roll', wall: '/wall', events: '/events', propose: '/propose' };
+const HREF_BY_KEY = { home: '/', roll: '/roll', wall: '/wall', events: '/events', propose: '/propose', gossip: '/gossip' };
 function markActiveTab(active) {
   const href = HREF_BY_KEY[active];
   if (!href) return;
