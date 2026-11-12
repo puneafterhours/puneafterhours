@@ -41,6 +41,20 @@ r/punetonight monthly guides).
 Upstash Redis (free tier) via the Vercel Marketplace integration. Env vars injected:
 KV_REST_API_URL / KV_REST_API_TOKEN (UPSTASH_REDIS_REST_* also supported).
 
+## Admin notifications (optional, free)
+When a birthday or proposal is submitted it lands in the review queue. If a Telegram bot
+is configured, the admin gets a push the moment that happens, so review is not a manual
+poll of `/admin`.
+
+- Set env vars `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` (both on Vercel).
+- Get them: create a bot with @BotFather (gives the token), message the bot once, then
+  read your chat id from `https://api.telegram.org/bot<token>/getUpdates`.
+- Behaviour: best effort. Without the env vars it is a silent no-op; a Telegram failure
+  never blocks or fails a signup/proposal (`api/_notify.js` swallows its own errors).
+- Privacy: the message carries no private fields - no WhatsApp number, no hidden
+  Instagram. It is a "go review this" nudge with the name and day/month (or proposal
+  title and proposer), nothing more.
+
 Upstash REST notes learned the hard way:
 - Every response is wrapped: `{"result": ...}` - always unwrap.
 - Multi-key reads must be path-style: `POST /mget/key1/key2` (body-array form returns nulls).

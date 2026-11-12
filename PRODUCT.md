@@ -20,7 +20,7 @@ One community page that holds the crew's own rituals and a sourced "what's on" f
 
 ## Operating Context
 
-People arrive from a link shared in the AfterHours WhatsApp group or on r/PuneTonight. The wall and plans are visible to anyone with the link. Hosts lock, unlock, cancel, or delete a proposal from a private manage link. The team removes entries from a passphrase-gated admin page that is not indexed. Storage is Upstash Redis, injected on Vercel as `KV_REST_API_URL` / `KV_REST_API_TOKEN` (Upstash REST aliases also work).
+People arrive from a link shared in the AfterHours WhatsApp group or on r/PuneTonight. The wall and plans are visible to anyone with the link. Hosts lock, unlock, cancel, or delete a proposal from a private manage link. The team removes entries from a passphrase-gated admin page that is not indexed. When a birthday or proposal is submitted for review, the admin can get an optional free Telegram push (configured via `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`) so review is not a manual poll; the notification is best effort, no-ops without config, never blocks a submission, and carries no private fields. Storage is Upstash Redis, injected on Vercel as `KV_REST_API_URL` / `KV_REST_API_TOKEN` (Upstash REST aliases also work).
 
 ## Capabilities and Constraints
 

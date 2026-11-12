@@ -1,4 +1,5 @@
 // Stores a meetup proposal in Vercel KV (or compatible REST Redis).
+import { notify } from './_notify.js';
 const RATE_LIMIT = 5;
 async function kv(url, token, path, body) {
   const r = await fetch(`${url}${path}`, {
@@ -45,5 +46,8 @@ export default async function handler(req, res) {
     await kv(KV_REST_API_URL, KV_REST_API_TOKEN, `/set/${encodeURIComponent(id)}/${encodeURIComponent(JSON.stringify(event))}`);
     await kv(KV_REST_API_URL, KV_REST_API_TOKEN, `/sadd/all:events/${encodeURIComponent(id)}`);
   } catch { return res.status(502).json({ error: 'storage' }); }
+  // Best-effort admin nudge. No phone number in the message. Never blocks or fails the
+  // proposal: notify() swallows its own errors and no-ops without env config.
+  await notify(`New proposal pending review:\n${event.title} - by ${event.name}${event.when ? `\nWhen: ${event.when}` : ''}\nReview at /admin`);
   return res.status(200).json({ ok: true, id, manageKey: event.mk });
 }
