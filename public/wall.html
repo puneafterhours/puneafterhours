@@ -33,10 +33,16 @@ fetch('/api/birthdays').then(r=>r.json()).then(({entries})=>{
   const list=document.getElementById('list');
   if(!entries||!entries.length){list.innerHTML='<div class="empty">No birthdays on the wall yet. Be the first.</div>';return;}
   const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const tp=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Kolkata',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(new Date()).map(x=>[x.type,+x.value]));
+  const curM=tp.month-1,curD=tp.day,curY=tp.year;
   list.innerHTML='';
-  months.forEach(m=>{
-    const es=entries.filter(e=>e.month===m).sort((a,b)=>a.day-b.day);
-    if(!es.length)return;
+  for(let i=0;i<=12;i++){
+    const mi=(curM+i)%12,yr=curY+Math.floor((curM+i)/12);
+    let es=entries.filter(e=>e.month===months[mi]).sort((a,b)=>a.day-b.day);
+    if(i===0)es=es.filter(e=>Number(e.day)>=curD);
+    if(i===12)es=es.filter(e=>Number(e.day)<curD);
+    if(!es.length)continue;
+    const m=months[mi]+' '+yr;
     const box=document.createElement('div');box.className='month';
     const h=document.createElement('h2');h.textContent=m;box.appendChild(h);
     es.forEach(e=>{
@@ -54,7 +60,8 @@ fetch('/api/birthdays').then(r=>r.json()).then(({entries})=>{
       row.appendChild(body);box.appendChild(row);
     });
     list.appendChild(box);
-  });
+  }
+  if(!list.children.length)list.innerHTML='<div class="empty">No birthdays on the wall yet. Be the first.</div>';
 }).catch(()=>{document.getElementById('list').innerHTML='<div class="empty">Could not load the wall. Try refreshing.</div>';});
 </script>
 </body>
