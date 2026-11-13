@@ -292,6 +292,10 @@ h2 .msym { font-size: 24px; margin-right: 8px; vertical-align: -4px; }
 #mg #mact { margin-top: 14px; }
 #mg #mact .send { margin-top: 0; }
 
+/* Share-this-plan action: inline pill, not a stretched form submit. */
+#share { margin-top: 18px; }
+#share .send { margin-top: 0; align-self: flex-start; }
+
 @media (max-width: 640px) {
   .tabs a .msym { font-size: 16px; margin-right: 4px; }
   h1 .msym { font-size: 30px; margin-right: 8px; }
