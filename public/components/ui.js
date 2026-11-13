@@ -7,7 +7,7 @@
 // The one value that used to force a 7-file edit on every style change - the CSS
 // cache-busting version - now lives here, in CSS_VERSION.
 
-export const CSS_VERSION = 15;
+export const CSS_VERSION = 16;
 
 // ---- DOM helpers (shared so events/wall/event stop each defining their own) ----
 
