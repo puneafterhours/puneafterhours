@@ -5,11 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plan - PuneAfterhours</title>
 <meta name="description" content="A meetup proposal. Say you're in.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PuneAfterhours">
+<meta property="og:title" content="A plan - PuneAfterhours">
+<meta property="og:description" content="A meetup proposal from the crew. Open it and say you're in.">
+<meta property="og:image" content="/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A plan - PuneAfterhours">
+<meta name="twitter:description" content="A meetup proposal from the crew. Open it and say you're in.">
+<meta name="twitter:image" content="/og.svg">
+<link rel="icon" href="/og.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
-<link rel="stylesheet" href="/style.css?v=15">
+<link rel="stylesheet" href="/style.css?v=17">
 <script type="module">import { mountChrome } from '/components/ui.js'; mountChrome({ active: 'events' });</script>
 </head>
 <body>
@@ -145,9 +155,26 @@ fetch('/api/events?id='+encodeURIComponent(id)).then(r=>r.json()).then(({event:e
     </div>
     <div class="choices" id="cal" style="display:none"></div>
     <div class="card" id="mg" style="display:none"><b>Host controls</b><label for="lockwhen">Confirmed date & time (set when you lock it in)</label><input type="datetime-local" id="lockwhen"><div class="hint">Optional but recommended. This is what "Add to calendar" uses. Leave the time blank for a day-only plan.</div><div class="choices" id="mact"><button type="button" data-a="lock"><span class="msym" aria-hidden="true">lock</span>Lock it in</button><button type="button" data-a="unlock">Back to proposal</button><button type="button" data-a="cancel">Cancel plan</button><button type="button" data-a="delete">Delete</button></div><div class="hint" id="mmsg"></div></div>
+    <div class="choices" id="share"><button class="send quiet" id="sharebtn" type="button"><span class="msym" aria-hidden="true">share</span>Share this plan</button></div>
     <a class="wall-link" href="/events"><span class="msym" aria-hidden="true">event</span>All plans</a>`;
   calendar(e);
   paint(e.status);
+  // Share: the plan's clean public URL (no manage key). Uses the native share sheet on
+  // mobile, falls back to copying the link with a brief confirmation.
+  (function(){
+    const btn=document.getElementById('sharebtn'); if(!btn) return;
+    const url=location.origin+'/e?id='+encodeURIComponent(id);
+    const title=(e.title?e.title+' - ':'')+'PuneAfterhours plan';
+    btn.addEventListener('click',async()=>{
+      try{
+        if(navigator.share){await navigator.share({title,text:'Come to this plan: '+(e.title||''),url});return;}
+        await navigator.clipboard.writeText(url);
+        // The button's last node is the text label after the icon span; swap it briefly.
+        btn.lastChild.textContent='Link copied';
+        setTimeout(()=>{btn.lastChild.textContent='Share this plan';},1600);
+      }catch{ /* user cancelled share, or clipboard blocked: do nothing */ }
+    });
+  })();
   const key=new URLSearchParams(location.search).get('k')||(()=>{try{return localStorage.getItem('mk:'+id)}catch{return null}})();
   if(key){document.getElementById('mg').style.display='block';
     const lw=document.getElementById('lockwhen');

@@ -164,7 +164,7 @@ h2 { font-size: 28px; }
 .count { font-weight: 700; color: var(--ink); }
 
 label { display: block; font-weight: 700; font-size: 16px; margin: 16px 0 6px; }
-input[type=text], input[type=number], input[type=password], input[type=tel], textarea, select {
+input[type=text], input[type=number], input[type=password], input[type=tel], input[type=datetime-local], input[type=date], input[type=time], textarea, select {
   width: 100%;
   padding: 12px;
   border-radius: 12px;
@@ -281,8 +281,20 @@ h2 .msym { font-size: 24px; margin-right: 8px; vertical-align: -4px; }
 
 /* Add-to-calendar actions on a locked plan: two pills in a row, not form submits,
    so they sit inline and size to content instead of stretching full width. */
-#cal { margin-top: 18px; }
+#cal { margin-top: 18px; margin-bottom: 18px; }
 #cal .send { margin-top: 0; align-self: flex-start; text-align: left; }
+
+/* Host-controls card: give the heading, the date field, and the action row clear
+   vertical separation so nothing crowds or overlaps the element above it. */
+#mg { margin-top: 18px; }
+#mg > b { display: block; margin-bottom: 4px; }
+#mg #lockwhen { margin-bottom: 4px; }
+#mg #mact { margin-top: 14px; }
+#mg #mact .send { margin-top: 0; }
+
+/* Share-this-plan action: inline pill, not a stretched form submit. */
+#share { margin-top: 18px; }
+#share .send { margin-top: 0; align-self: flex-start; }
 
 @media (max-width: 640px) {
   .tabs a .msym { font-size: 16px; margin-right: 4px; }

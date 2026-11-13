@@ -1,0 +1,35 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- PuneAfterhours social preview: four flat color pans on white, per DESIGN.md.
+       1200x630 is the standard Open Graph / Twitter large-card size. -->
+  <rect width="1200" height="630" fill="#ffffff"/>
+
+  <!-- Wordmark, Zilla Slab 700 in ink -->
+  <text x="80" y="128" font-family="'Zilla Slab', 'Iowan Old Style', Palatino, serif"
+        font-weight="700" font-size="72" letter-spacing="-1.4" fill="#1c1914">PuneAfterhours</text>
+
+  <!-- One-line fact, body weight -->
+  <text x="80" y="186" font-family="'Zilla Slab', 'Iowan Old Style', Palatino, serif"
+        font-weight="500" font-size="30" fill="#1c1914">Birthdays, meetup plans, who's in — for the AfterHours gang &amp; r/PuneTonight.</text>
+
+  <!-- Four equal pans with the job names, each in its pan's foreground -->
+  <g font-family="'Zilla Slab', 'Iowan Old Style', Palatino, serif" font-weight="700" font-size="40">
+    <rect x="80"  y="250" width="248" height="300" rx="18" fill="#c2185b"/>
+    <text x="104" y="520" fill="#ffffff">Birthday</text>
+
+    <rect x="344" y="250" width="248" height="300" rx="18" fill="#f0b400"/>
+    <text x="368" y="520" fill="#1c1914">Wall</text>
+
+    <rect x="608" y="250" width="248" height="300" rx="18" fill="#3949ab"/>
+    <text x="632" y="520" fill="#ffffff">Plans</text>
+
+    <rect x="872" y="250" width="248" height="300" rx="18" fill="#2e7d32"/>
+    <text x="896" y="520" fill="#ffffff">What's on</text>
+  </g>
+
+  <!-- 4px rim on the first pan, matching the "current pan" rule -->
+  <rect x="80" y="250" width="248" height="300" rx="18" fill="none" stroke="#111111" stroke-width="4"/>
+
+  <!-- Footer credit -->
+  <text x="80" y="600" font-family="'Zilla Slab', 'Iowan Old Style', Palatino, serif"
+        font-weight="500" font-size="24" fill="#1c1914">Run by the PuneAfters Team · one link for the crew</text>
+</svg>

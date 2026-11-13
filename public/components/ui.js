@@ -7,7 +7,7 @@
 // The one value that used to force a 7-file edit on every style change - the CSS
 // cache-busting version - now lives here, in CSS_VERSION.
 
-export const CSS_VERSION = 15;
+export const CSS_VERSION = 17;
 
 // ---- DOM helpers (shared so events/wall/event stop each defining their own) ----
 
@@ -47,6 +47,26 @@ export function stateHTML(kind, message) {
 export function mountChrome({ active } = {}) {
   syncStylesheet();
   markActiveTab(active);
+  absolutizeSocialMeta();
+}
+
+// Upgrade relative og:/twitter: URLs to absolute against the current origin, so link
+// previews resolve correctly on whatever domain the site is served from (no hardcoded
+// domain). Scrapers that run JS and the browser both benefit; the static relative tags
+// remain the fallback for scrapers that don't execute JS.
+function absolutizeSocialMeta() {
+  const origin = location.origin;
+  const fix = (sel, attr) => document.querySelectorAll(sel).forEach((m) => {
+    const v = m.getAttribute(attr) || '';
+    if (v.startsWith('/')) m.setAttribute(attr, origin + v);
+  });
+  fix('meta[property="og:image"]', 'content');
+  fix('meta[name="twitter:image"]', 'content');
+  // og:url: set to the full current URL when it was a relative placeholder.
+  document.querySelectorAll('meta[property="og:url"]').forEach((m) => {
+    const v = m.getAttribute('content') || '';
+    if (v.startsWith('/')) m.setAttribute('content', origin + location.pathname);
+  });
 }
 
 function syncStylesheet() {
